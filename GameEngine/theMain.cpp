@@ -545,7 +545,7 @@ int main(void)
 		GLuint cityTextureUNIT_ID = 30;			// Texture unit go from 0 to 79
 		glActiveTexture(cityTextureUNIT_ID + GL_TEXTURE0);	// GL_TEXTURE0 = 33984
 
-		int cubeMapTextureID = ::g_pTheTextureManager->getTextureIDFromName("CityCubeMap");
+		int cubeMapTextureID = ::g_pTheTextureManager->getTextureIDFromName("SpaceCubeMap");
 
 		// Cube map is now bound to texture unit 30
 		//		glBindTexture( GL_TEXTURE_2D, cubeMapTextureID );

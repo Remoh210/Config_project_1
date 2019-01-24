@@ -22,7 +22,7 @@ float lastY = SCR_HEIGHT / 2.0f;
 
 std::string Answer;
 void ManageScene(GLFWwindow* window);
-
+void shoot();
 bool bIsPicked = false;
 cMeshObject* closedModel;
 bool bMouseInWindow = false;
@@ -68,6 +68,7 @@ void key_callback( GLFWwindow* window,
 	{
 		//saveModelInfo("Models2.txt", vec_pObjectsToDraw);
 		//saveLightInfo("lights.txt", LightManager->vecLights);
+		shoot();
 	}
 
 	//LOAD MODELS

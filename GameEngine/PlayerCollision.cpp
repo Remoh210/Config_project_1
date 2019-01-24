@@ -9,9 +9,9 @@
 void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 {
 	cMeshObject* pPlayer = findObjectByFriendlyName("player");
-	cMeshObject* pDebugSphereLeft = findObjectByFriendlyName("DebugSphereLeft");
-	cMeshObject* pDebugSphereRight = findObjectByFriendlyName("DebugSphereRight");
-	cMeshObject* pDebugSphereNose = findObjectByFriendlyName("DebugSphereNose");
+	//cMeshObject* pDebugSphereLeft = findObjectByFriendlyName("DebugSphereLeft");
+	//cMeshObject* pDebugSphereRight = findObjectByFriendlyName("DebugSphereRight");
+	//cMeshObject* pDebugSphereNose = findObjectByFriendlyName("DebugSphereNose");
 
 	
 		//pPlayer->setMeshOrientationEulerAngles(glm::vec3(camera.Front.y/10, cameraFront.x/10, 0.0f), false);

@@ -91,6 +91,9 @@
     <Filter Include="TextManager">
       <UniqueIdentifier>{254fc64d-77ba-46e4-bd12-541ecf97598b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SimpleGame">
+      <UniqueIdentifier>{4772d15f-edf8-4b25-b5fa-c683b5ab0b75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="theMain.cpp">
@@ -215,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="cTextRend.cpp">
       <Filter>TextManager</Filter>
+    </ClCompile>
+    <ClCompile Include="shoot.cpp">
+      <Filter>SimpleGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

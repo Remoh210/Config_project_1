@@ -236,15 +236,15 @@ int main(void)
 	//vec_sorted_drawObj = vec_pObjectsToDraw;
 
 			// Draw all the objects in the "scene"
-	for (unsigned int objIndex = 0;
-		objIndex != (unsigned int)vec_pObjectsToDraw.size();
-		objIndex++)
-	{
-		cMeshObject* pCurrentMesh = vec_pObjectsToDraw[objIndex];
-		if (pCurrentMesh->materialDiffuse.a < 1.0f) { vec_transObj.push_back(pCurrentMesh); }
-		else { vec_non_transObj.push_back(pCurrentMesh); }
+	//for (unsigned int objIndex = 0;
+	//	objIndex != (unsigned int)vec_pObjectsToDraw.size();
+	//	objIndex++)
+	//{
+	//	cMeshObject* pCurrentMesh = vec_pObjectsToDraw[objIndex];
+	//	if (pCurrentMesh->materialDiffuse.a < 1.0f) { vec_transObj.push_back(pCurrentMesh); }
+	//	else { vec_non_transObj.push_back(pCurrentMesh); }
 
-	}//for ( unsigned int objIndex = 0; 
+	//}//for ( unsigned int objIndex = 0; 
 
 
 	LoadTerrainAABB();
@@ -571,10 +571,10 @@ int main(void)
 
 		// Draw all the objects in the "scene"
 		for ( unsigned int objIndex = 0; 
-			  objIndex != (unsigned int)vec_non_transObj.size();
+			  objIndex != (unsigned int)vec_pObjectsToDraw.size();
 			  objIndex++ )
 		{	
-			cMeshObject* pCurrentMesh = vec_non_transObj[objIndex];
+			cMeshObject* pCurrentMesh = vec_pObjectsToDraw[objIndex];
 			
 			glm::mat4x4 matModel = glm::mat4(1.0f);			// mat4x4 m, p, mvp;
 

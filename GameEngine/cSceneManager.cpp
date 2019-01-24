@@ -61,6 +61,7 @@ bool cSceneManager::saveScene(std::string filename) {
 			rapidjson::Value Rotation(rapidjson::kArrayType);
 			rapidjson::Value Scale(rapidjson::kArrayType);
 			rapidjson::Value Visible(CurModel->bIsVisible);
+			rapidjson::Value DontLight(CurModel->bDontLight);
 			rapidjson::Value UsePhysics(CurModel->bIsUpdatedByPhysics);
 			rapidjson::Value WireFrame(CurModel->bIsWireFrame);
 
@@ -94,6 +95,7 @@ bool cSceneManager::saveScene(std::string filename) {
 			ObjValue.AddMember("Mesh", MeshName, allocator);
 			ObjValue.AddMember("Visible", Visible, allocator);
 			ObjValue.AddMember("Use_Physics", UsePhysics, allocator);
+			ObjValue.AddMember("Dont_light", DontLight, allocator);
 			ObjValue.AddMember("Wireframe", WireFrame, allocator);
 			ObjValue.AddMember("Position", PositionArray, allocator);
 			ObjValue.AddMember("DiffuseRGB_Alpha", DiffuseRGBArray, allocator);
@@ -271,6 +273,7 @@ bool cSceneManager::loadScene(std::string filename) {
 		CurModel->meshName = GameObject[i]["Mesh"].GetString();
 		CurModel->bIsVisible = GameObject[i]["Visible"].GetBool();
 		CurModel->bIsUpdatedByPhysics = GameObject[i]["Use_Physics"].GetBool();
+		CurModel->bDontLight = GameObject[i]["Dont_light"].GetBool();
 		CurModel->bIsWireFrame = GameObject[i]["Wireframe"].GetBool();
 		curModelInfo.meshFileName = GameObject[i]["Mesh"].GetString();
 		

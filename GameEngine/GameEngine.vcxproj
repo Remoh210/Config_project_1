@@ -189,6 +189,7 @@
     <ClCompile Include="PhysicsStuff.cpp" />
     <ClCompile Include="PlayerCollision.cpp" />
     <ClCompile Include="PlyFileLoader.cpp" />
+    <ClCompile Include="shoot.cpp" />
     <ClCompile Include="sModelDrawInfo.cpp" />
     <ClCompile Include="SmoothStep.cpp" />
     <ClCompile Include="sNVPair.cpp" />

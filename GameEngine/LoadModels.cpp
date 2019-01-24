@@ -22,11 +22,9 @@ void LoadModelTypes( cVAOMeshManager* pTheVAOMeshManager, GLuint shaderProgramID
 	sphereInvertedNormalsInfo.meshFileName = "Sphere_320_faces_xyz_n_GARBAGE_uv_INVERTED_NORMALS.ply";			// "Sphere_320_faces_xyz.ply";
 	pTheVAOMeshManager->LoadModelIntoVAO(sphereInvertedNormalsInfo, shaderProgramID);
 
-
-	sModelDrawInfo mig;
-	mig.meshFileName = "mig.ply";			// "Sphere_320_faces_xyz.ply";
-	pTheVAOMeshManager->LoadModelIntoVAO(mig, shaderProgramID);
-
+	sModelDrawInfo beam;
+	beam.meshFileName = "beam.ply";			// "cube_flat_shaded_xyz.ply";
+	pTheVAOMeshManager->LoadModelIntoVAO(beam, shaderProgramID);
 
 
 	//for debug draw only ***********************

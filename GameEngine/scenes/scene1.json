@@ -13,6 +13,7 @@
             "Mesh": "earth.ply",
             "Visible": true,
             "Use_Physics": false,
+            "Dont_light": false,
             "Wireframe": false,
             "Position": [
                 0.0,
@@ -54,6 +55,7 @@
             "Mesh": "x-wing.ply",
             "Visible": true,
             "Use_Physics": true,
+            "Dont_light": false,
             "Wireframe": false,
             "Position": [
                 10.0,
@@ -86,6 +88,48 @@
             "Textures": [
                 {
                     "Name": "x-wingTex.bmp",
+                    "Strength": 1.0
+                }
+            ]
+        },
+        {
+            "Name": "enemy",
+            "Mesh": "enemy.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Dont_light": false,
+            "Wireframe": false,
+            "Position": [
+                20.0,
+                0.0,
+                0.0
+            ],
+            "DiffuseRGB_Alpha": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                100.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Textures": [
+                {
+                    "Name": "EnemyTex.bmp",
                     "Strength": 1.0
                 }
             ]

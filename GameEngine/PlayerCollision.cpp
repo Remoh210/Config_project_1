@@ -13,8 +13,8 @@
 void InitGame() {
 	cMeshObject* pPlayer = findObjectByFriendlyName("player");
 	cMeshObject* pEnemy = findObjectByFriendlyName("enemy");
-	BehaviourManager* behavManager = new BehaviourManager();
-	SeekBehaviour* seek = new SeekBehaviour(pEnemy, pPlayer, 1.0f, 2.0f);
+	behavManager = new BehaviourManager();
+	SeekBehaviour* seek = new SeekBehaviour(pEnemy, pPlayer, 1.2f, 2.2f);
 	behavManager->SetBehaviour(pEnemy, seek);
 }
 
@@ -40,7 +40,7 @@ void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 	glm::mat4 matQPlayer29rotation = glm::mat4(qPlayer29Rotation);
 	glm::vec4 vecForwardDirection_WorldSpace = matQPlayer29rotation * vecForwardDirection_ModelSpace;
 	vecForwardDirection_WorldSpace = glm::normalize(vecForwardDirection_WorldSpace);
-	float forwardSpeed = 1.0f;
+	float forwardSpeed = 2.5f;
 	float forwardSpeedThisFrame = forwardSpeed * deltaTime;
 	pPlayer->velocity = vecForwardDirection_WorldSpace * forwardSpeed;
 	

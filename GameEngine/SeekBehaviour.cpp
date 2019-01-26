@@ -22,7 +22,13 @@ void SeekBehaviour::update(float dt)
 	desired = glm::normalize(desired) * mMaxSpeed;
 	glm::vec3 steering = desired - mAgent->velocity;
 
-	mAgent->accel += steering;
+	steering = glm::normalize(desired) * mMaxForce;
+
+	mAgent->accel = steering;
+
+	glm::mat4 rot = glm::inverse(glm::lookAt(mAgent->position, mAgent->position + mAgent->accel, glm::vec3(0.0f, 1.0f, 0.0f)));
+	mAgent->m_meshQOrientation = glm::quat(rot);
+	//mAgent->setMeshOrientationEulerAngles()
 
 	// Update agent's orientation...
 }

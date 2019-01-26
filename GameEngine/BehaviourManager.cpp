@@ -1,4 +1,5 @@
 #include "BehaviourManager.h"
+#include "cMeshObject.h"
 
 BehaviourManager::BehaviourManager(void) {
 
@@ -15,7 +16,7 @@ BehaviourManager::~BehaviourManager(void) {
 	mBehaviourMap.clear();
 }
 
-void BehaviourManager::SetBehaviour(Entity* agent, Behaviour* behaviour) {
+void BehaviourManager::SetBehaviour(cMeshObject* agent, Behaviour* behaviour) {
 	// Check if the agent is already in the behaviour map
 	behaviour_iterator itAgent = mBehaviourMap.find(agent);
 
@@ -28,7 +29,7 @@ void BehaviourManager::SetBehaviour(Entity* agent, Behaviour* behaviour) {
 	mBehaviourMap[agent] = behaviour;
 }
 
-void BehaviourManager::RemoveAgent(Entity* agent) {
+void BehaviourManager::RemoveAgent(cMeshObject* agent) {
 	// Check if the agent is in the map
 	behaviour_iterator itAgent = mBehaviourMap.find(agent);
 

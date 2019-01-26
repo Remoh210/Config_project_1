@@ -2,7 +2,7 @@
 #define BEHAVIOUR_MANAGER_H
 
 #include <map>
-#include "Entity.h"
+#include "cMeshObject.h"
 #include "Behaviour.h"
 
 class BehaviourManager {
@@ -10,16 +10,16 @@ public:
 	BehaviourManager(void);
 	~BehaviourManager(void);
 
-	void SetBehaviour(Entity* agent, Behaviour* behaviour);
-	void RemoveAgent(Entity* agent);
+	void SetBehaviour(cMeshObject* agent, Behaviour* behaviour);
+	void RemoveAgent(cMeshObject* agent);
 
 	void update(float dt);
 
 private:
-	std::map<Entity*, Behaviour*> mBehaviourMap;
+	std::map<cMeshObject*, Behaviour*> mBehaviourMap;
 };
 
-typedef std::map<Entity*, Behaviour*>::iterator behaviour_iterator;
+typedef std::map<cMeshObject*, Behaviour*>::iterator behaviour_iterator;
 
 
 #endif

@@ -41,6 +41,7 @@ double deltaTime = 0;
 
 void DoPhysicsUpdate( double deltaTime, 
 					  std::vector< cMeshObject* > &vec_pObjectsToDraw );
+void InitGame();
 
 std::vector< cMeshObject* > vec_pObjectsToDraw;
 
@@ -72,6 +73,7 @@ glm::vec3 g_CameraEye = glm::vec3( 0.0, 0.0, 250.0f );
 cShaderManager* pTheShaderManager = NULL;		// "Heap" variable
 cVAOMeshManager* g_pTheVAOMeshManager = NULL;
 cSceneManager* g_pSceneManager = NULL;
+BehaviourManager* behavManager = NULL;
 //cTextRend g_textRend;
 cLightManager* LightManager = NULL;
 
@@ -233,6 +235,7 @@ int main(void)
 	//CreateModels("Models.txt", ::g_pTheVAOMeshManager, program);
 	LoadModelsIntoScene(::vec_pObjectsToDraw);
 
+	InitGame();
 	//vec_sorted_drawObj = vec_pObjectsToDraw;
 
 			// Draw all the objects in the "scene"

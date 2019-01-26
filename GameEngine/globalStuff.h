@@ -19,6 +19,7 @@
 #include "cLuaBrain.h"
 #include "cLightManager.h"
 #include "cSceneManager.h"
+#include "BehaviourManager.h"
 
 #include "Error/CErrorLog.h"
 #include "TextureManager/cBasicTextureManager.h"
@@ -57,6 +58,7 @@ extern cVAOMeshManager* g_pTheVAOMeshManager;
 extern std::vector< cMeshObject* > vec_pObjectsToDraw;
 extern cSceneManager* g_pSceneManager;
 extern cLightManager* LightManager;
+extern BehaviourManager* behavManager;
 //extern cTextRend* g_textRend;
 
 // 

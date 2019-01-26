@@ -1,4 +1,6 @@
 #include "globalStuff.h"
+#include "BehaviourManager.h"
+#include "SeekBehaviour.h"
 
 // These are for the transformation glm stuff
 #include <glm/glm.hpp> 
@@ -7,9 +9,19 @@
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 
 
+
+void InitGame() {
+	cMeshObject* pPlayer = findObjectByFriendlyName("player");
+	cMeshObject* pEnemy = findObjectByFriendlyName("enemy");
+	BehaviourManager* behavManager = new BehaviourManager();
+	SeekBehaviour* seek = new SeekBehaviour(pEnemy, pPlayer, 1.0f, 2.0f);
+	behavManager->SetBehaviour(pEnemy, seek);
+}
+
 void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 {
 	cMeshObject* pPlayer = findObjectByFriendlyName("player");
+	behavManager->update(deltaTime);
 	//cMeshObject* pDebugSphereLeft = findObjectByFriendlyName("DebugSphereLeft");
 	//cMeshObject* pDebugSphereRight = findObjectByFriendlyName("DebugSphereRight");
 	//cMeshObject* pDebugSphereNose = findObjectByFriendlyName("DebugSphereNose");
@@ -42,6 +54,7 @@ void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 	glm::mat4 matTranslation = glm::translate(glm::mat4(1.0f),
 		pPlayer->position);
 
+	
 	//matTransform = matTransform * matTranslation;
 	//glm::quat qRotation = pPlayer->getQOrientation();
 	//glm::mat4 matQrotation = glm::mat4(qRotation);

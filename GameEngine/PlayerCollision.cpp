@@ -1,6 +1,7 @@
 #include "globalStuff.h"
 
 // These are for the transformation glm stuff
+#include <glm/glm.hpp> 
 #include <glm/vec4.hpp> // glm::vec4
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
@@ -18,6 +19,8 @@ void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 		//pPlayer->adjMeshOrientationEulerAngles(glm::vec3(-0.005f, 0.0f, 0.0f), false);
 		//pPlayer->setMeshOrientationEulerAngles(glm::vec3(0.0f, camera.Front.x, 0.0f), false);
 		//pPlayer->adjMeshOrientationEulerAngles(glm::vec3(0.0, -0.005f, 0.0f), false); 
+   //DELETE LASER BEAMS
+
 
 	glm::vec4 vecForwardDirection_ModelSpace = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
 
@@ -63,6 +66,18 @@ void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 	//pDebugSphereRight->position = rightWingTipContactPoint_WorldSpace;
 	//LightManager->vecLights.at(7)->position = glm::vec4(noseContactPoint_WorldSpace);
 	//LightManager->vecLights.at(7)->SetRelativeDirection(glm::normalize(pPlayer->velocity));
+
+
+	for (int i = 0; i < vec_pObjectsToDraw.size(); i++)
+	{
+		if (vec_pObjectsToDraw[i]->friendlyName == "beam")
+		{
+			if (glm::distance(vec_pObjectsToDraw[i]->initPos, vec_pObjectsToDraw[i]->position) > 20.0f)
+			{
+				vec_pObjectsToDraw.erase(vec_pObjectsToDraw.begin() + i);
+			}
+		}
+	}
 
 	return;
 }

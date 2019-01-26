@@ -4,7 +4,7 @@ cMeshObject::cMeshObject()
 {
 	this->position = glm::vec3(0.0f);
 	this->nonUniformScale = glm::vec3(1.0f);
-
+	this->initPos = glm::vec3(0.0f);
 	//	this->preRotation = glm::vec3(0.0f);
 	//	this->postRotation = glm::vec3(0.0f);
 	this->setMeshOrientationEulerAngles(glm::vec3(0.0f, 0.0f, 0.0f));

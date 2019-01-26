@@ -94,6 +94,9 @@
     <Filter Include="SimpleGame">
       <UniqueIdentifier>{4772d15f-edf8-4b25-b5fa-c683b5ab0b75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Behavior">
+      <UniqueIdentifier>{9b1af1b5-e5b4-47ef-8bde-48e9c8ec1eee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="theMain.cpp">
@@ -222,6 +225,12 @@
     <ClCompile Include="shoot.cpp">
       <Filter>SimpleGame</Filter>
     </ClCompile>
+    <ClCompile Include="BehaviourManager.cpp">
+      <Filter>Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="SeekBehaviour.cpp">
+      <Filter>Behavior</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linmath.h">
@@ -334,6 +343,15 @@
     </ClInclude>
     <ClInclude Include="cTextRend.h">
       <Filter>TextManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviour.h">
+      <Filter>Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourManager.h">
+      <Filter>Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="SeekBehaviour.h">
+      <Filter>Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

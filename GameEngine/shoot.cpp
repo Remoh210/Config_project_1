@@ -46,6 +46,7 @@ void shoot()
 	//pBeam->initPos = beam_WorldSpace;
 	//pBeam->bIsProjectile = true;
 	pBeam->bIsUpdatedByPhysics = true;
+	pBeam->initPos = pBeam->position;
 	pBeam->bIsDebug = false;
 	pBeam->pTheShape = new sSphere(2.0f);
 	pBeam->shapeType = cMeshObject::SPHERE;

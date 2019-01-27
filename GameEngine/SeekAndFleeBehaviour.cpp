@@ -2,6 +2,7 @@
 #include "HelpFuctions.h"
 #include <iostream>
 
+
 SeekAndFleeBehaviour::SeekAndFleeBehaviour(cMeshObject* agent, cMeshObject* target, float maxSpeed, float maxForce, float seekDist, float angle, float fleeDist)
 	: mAgent(agent)
 	, mTarget(target)
@@ -11,7 +12,7 @@ SeekAndFleeBehaviour::SeekAndFleeBehaviour(cMeshObject* agent, cMeshObject* targ
 	, mSeekDist(seekDist)
 	, mFleeDist(fleeDist)
 {
-
+	
 }
 
 SeekAndFleeBehaviour::~SeekAndFleeBehaviour(void)
@@ -20,7 +21,6 @@ SeekAndFleeBehaviour::~SeekAndFleeBehaviour(void)
 
 void SeekAndFleeBehaviour::update(float dt)
 {
-
 	if (mAgent == 0 || mTarget == 0) return;
 
 	glm::vec3 ToPlayer = mAgent->position - mTarget->position;

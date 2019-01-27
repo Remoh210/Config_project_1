@@ -4,6 +4,7 @@
 #include "FleeBehaviour.h"
 #include "SeekAndFleeBehaviour.h"
 #include "PursueAndEvadeBehaviour.h"
+#include "WanderBehaviour.h"
 
 // These are for the transformation glm stuff
 #include <glm/glm.hpp> 
@@ -17,8 +18,11 @@ void InitGame() {
 	cMeshObject* pPlayer = findObjectByFriendlyName("player");
 	cMeshObject* pEnemy = findObjectByFriendlyName("enemy");
 	behavManager = new BehaviourManager();
-	PursueAndEvadeBehaviour* PursueAndEvade = new PursueAndEvadeBehaviour(pEnemy, pPlayer, 10.2f, 10.2f);
-	behavManager->SetBehaviour(pEnemy, PursueAndEvade);
+	WanderBehaviour* wander = new WanderBehaviour(pEnemy, pPlayer, 7.2f, 1.2f, 0.0f, 30.0f, -30.0f);
+    behavManager->SetBehaviour(pEnemy, wander);
+
+	//PursueAndEvadeBehaviour* PursueAndEvade = new PursueAndEvadeBehaviour(pEnemy, pPlayer, 10.2f, 10.2f);
+	//behavManager->SetBehaviour(pEnemy, PursueAndEvade);
 	//SeekAndFleeBehaviour* seekAndFlee = new SeekAndFleeBehaviour(pEnemy, pPlayer, 7.2f, 10.0f, 20.0f, 45.0f, 40.0f);
 	//behavManager->SetBehaviour(pEnemy, seekAndFlee);
 	//FleeBehaviour* flee = new FleeBehaviour(pEnemy, pPlayer, 7.2f, 4.2f);

@@ -204,6 +204,7 @@
     <ClCompile Include="TextureManager\CTextureFromBMP.cpp" />
     <ClCompile Include="theMain.cpp" />
     <ClCompile Include="UserIO.cpp" />
+    <ClCompile Include="WanderBehaviour.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Behaviour.h" />
@@ -250,6 +251,7 @@
     <ClInclude Include="TextureManager\C24BitBMPpixel.h" />
     <ClInclude Include="TextureManager\cBasicTextureManager.h" />
     <ClInclude Include="TextureManager\CTextureFromBMP.h" />
+    <ClInclude Include="WanderBehaviour.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\scripts\example.lua" />

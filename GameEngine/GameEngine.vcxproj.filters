@@ -243,6 +243,9 @@
     <ClCompile Include="PursueAndEvadeBehaviour.cpp">
       <Filter>Behavior</Filter>
     </ClCompile>
+    <ClCompile Include="WanderBehaviour.cpp">
+      <Filter>Behavior</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="linmath.h">
@@ -375,6 +378,9 @@
       <Filter>Behavior</Filter>
     </ClInclude>
     <ClInclude Include="SeekAndFleeBehaviour.h">
+      <Filter>Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="WanderBehaviour.h">
       <Filter>Behavior</Filter>
     </ClInclude>
   </ItemGroup>

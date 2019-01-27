@@ -1,6 +1,9 @@
 #include "globalStuff.h"
 #include "BehaviourManager.h"
 #include "SeekBehaviour.h"
+#include "FleeBehaviour.h"
+#include "SeekAndFleeBehaviour.h"
+#include "PursueAndEvadeBehaviour.h"
 
 // These are for the transformation glm stuff
 #include <glm/glm.hpp> 
@@ -14,13 +17,18 @@ void InitGame() {
 	cMeshObject* pPlayer = findObjectByFriendlyName("player");
 	cMeshObject* pEnemy = findObjectByFriendlyName("enemy");
 	behavManager = new BehaviourManager();
-	SeekBehaviour* seek = new SeekBehaviour(pEnemy, pPlayer, 1.2f, 2.2f);
-	behavManager->SetBehaviour(pEnemy, seek);
+	PursueAndEvadeBehaviour* PursueAndEvade = new PursueAndEvadeBehaviour(pEnemy, pPlayer, 10.2f, 10.2f);
+	behavManager->SetBehaviour(pEnemy, PursueAndEvade);
+	//SeekAndFleeBehaviour* seekAndFlee = new SeekAndFleeBehaviour(pEnemy, pPlayer, 7.2f, 10.0f, 20.0f, 45.0f, 40.0f);
+	//behavManager->SetBehaviour(pEnemy, seekAndFlee);
+	//FleeBehaviour* flee = new FleeBehaviour(pEnemy, pPlayer, 7.2f, 4.2f);
+	//behavManager->SetBehaviour(pEnemy, flee);
 }
 
 void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 {
 	cMeshObject* pPlayer = findObjectByFriendlyName("player");
+	cMeshObject* pEnemy = findObjectByFriendlyName("enemy");
 	behavManager->update(deltaTime);
 	//cMeshObject* pDebugSphereLeft = findObjectByFriendlyName("DebugSphereLeft");
 	//cMeshObject* pDebugSphereRight = findObjectByFriendlyName("DebugSphereRight");
@@ -40,7 +48,7 @@ void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 	glm::mat4 matQPlayer29rotation = glm::mat4(qPlayer29Rotation);
 	glm::vec4 vecForwardDirection_WorldSpace = matQPlayer29rotation * vecForwardDirection_ModelSpace;
 	vecForwardDirection_WorldSpace = glm::normalize(vecForwardDirection_WorldSpace);
-	float forwardSpeed = 2.5f;
+	float forwardSpeed = 20.5f;
 	float forwardSpeedThisFrame = forwardSpeed * deltaTime;
 	pPlayer->velocity = vecForwardDirection_WorldSpace * forwardSpeed;
 	
@@ -55,6 +63,7 @@ void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 		pPlayer->position);
 
 	
+
 	//matTransform = matTransform * matTranslation;
 	//glm::quat qRotation = pPlayer->getQOrientation();
 	//glm::mat4 matQrotation = glm::mat4(qRotation);
@@ -80,12 +89,12 @@ void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 	//LightManager->vecLights.at(7)->position = glm::vec4(noseContactPoint_WorldSpace);
 	//LightManager->vecLights.at(7)->SetRelativeDirection(glm::normalize(pPlayer->velocity));
 
-
+	
 	for (int i = 0; i < vec_pObjectsToDraw.size(); i++)
 	{
 		if (vec_pObjectsToDraw[i]->friendlyName == "beam")
 		{
-			if (glm::distance(vec_pObjectsToDraw[i]->initPos, vec_pObjectsToDraw[i]->position) > 20.0f)
+			if (glm::distance(vec_pObjectsToDraw[i]->initPos, vec_pObjectsToDraw[i]->position) > 2500.0f)
 			{
 				vec_pObjectsToDraw.erase(vec_pObjectsToDraw.begin() + i);
 			}

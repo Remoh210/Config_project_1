@@ -228,7 +228,19 @@
     <ClCompile Include="BehaviourManager.cpp">
       <Filter>Behavior</Filter>
     </ClCompile>
+    <ClCompile Include="FleeBehaviour.cpp">
+      <Filter>Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="HelpFunctions.cpp">
+      <Filter>Behavior</Filter>
+    </ClCompile>
     <ClCompile Include="SeekBehaviour.cpp">
+      <Filter>Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="SeekAndFleeBehaviour.cpp">
+      <Filter>Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="PursueAndEvadeBehaviour.cpp">
       <Filter>Behavior</Filter>
     </ClCompile>
   </ItemGroup>
@@ -350,7 +362,19 @@
     <ClInclude Include="BehaviourManager.h">
       <Filter>Behavior</Filter>
     </ClInclude>
+    <ClInclude Include="FleeBehaviour.h">
+      <Filter>Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="HelpFuctions.h">
+      <Filter>Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="PursueAndEvadeBehaviour.h">
+      <Filter>Behavior</Filter>
+    </ClInclude>
     <ClInclude Include="SeekBehaviour.h">
+      <Filter>Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="SeekAndFleeBehaviour.h">
       <Filter>Behavior</Filter>
     </ClInclude>
   </ItemGroup>

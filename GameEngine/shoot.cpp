@@ -77,5 +77,5 @@ void shoot()
 
 	pBeam->bIsVisible = true;
 	//pBeam2->velocity = xWing->velocity * 15.0f;
-	pBeam->velocity = xWing->velocity * 45.0f;
+	pBeam->velocity = xWing->velocity * 2.0f;
 }

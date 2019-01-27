@@ -1,5 +1,6 @@
 #ifndef BEHAVIOUR_H
 #define BEHAVIOUR_H
+#include "HelpFuctions.h"
 
 class Behaviour {
 public:

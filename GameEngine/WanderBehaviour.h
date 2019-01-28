@@ -6,7 +6,7 @@
 
 class WanderBehaviour : public Behaviour {
 public:
-	WanderBehaviour(cMeshObject* agent, cMeshObject* target, float maxSpeed, float maxForce, float timeToWait, float upLim, float dwLim);
+	WanderBehaviour(cMeshObject* agent, float maxSpeed, float maxForce, float timeToWait, float upLim, float dwLim);
 	virtual ~WanderBehaviour(void);
 
 	virtual void update(float dt);

@@ -58,7 +58,9 @@ void PursueAndEvadeBehaviour::update(float dt)
 	{
 
 	//float T  = glm::length(ToTarget)/ mMaxSpeed;
-	float T = 10.0f;
+	//float T = 10.0f;
+	float T = glm::distance(mAgent->position, mTarget->position) / 20.0f;
+
 	glm::vec3 futurePosition = mTarget->position + mTarget->velocity * T;
 
 	glm::vec3 desired = futurePosition - mAgent->position;

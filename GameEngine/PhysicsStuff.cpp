@@ -214,41 +214,84 @@ void DoPhysicsUpdate( double fDeltaTime,
 
 			cMeshObject* pObjectA = *itObjectA;
 			cMeshObject* pObjectB = *itObjectB;
-			// Same? 
-
-			if ( pObjectA != pObjectB )
+			if (pObjectA->bIsUpdatedByPhysics && pObjectB->bIsUpdatedByPhysics)
 			{
-				// Do BOTH of these have a "shape" defined
-				// Could also test for the enum (which is WAY better)
-				if ( ( pObjectA->pTheShape != NULL  ) && 
-				     ( pObjectB->pTheShape != NULL ) )
+				// Same? 
+
+				if (pObjectA != pObjectB)
 				{
-					if ( TestForCollision( pObjectA, pObjectB ) )
+					// Do BOTH of these have a "shape" defined
+					// Could also test for the enum (which is WAY better)
+					if ((pObjectA->pTheShape != NULL) &&
+						(pObjectB->pTheShape != NULL))
 					{
-						// Do something about that collision.
-						// Usually it's the reflection vector+normal changing velocity
-
-						//pObjectB->objColour = glm::vec3( 0.0f, 0.0f, 1.0f );
-						//pObjectA->objColour = glm::vec3( 0.0f, 0.0f, 1.0f );
-
-						
-						if ( (pObjectA->shapeType == cMeshObject::SPHERE) && (pObjectB->shapeType == cMeshObject::SPHERE) )
+						if (TestForCollision(pObjectA, pObjectB))
 						{
-							// If it's a Sphere-Sphere, make the intersection lines yellow
-							::g_pDebugRenderer->addLine( pObjectA->position, pObjectB->position, 
-														 glm::vec3( 1.0f, 1.0f, 0.0f ), 
-														 2.0f /*show for 2 seconds*/ );
-						}
-						else if ( (pObjectA->shapeType == cMeshObject::SPHERE) && (pObjectB->shapeType == cMeshObject::TRIANGLE) )
-						{
-							// If it's a Sphere-Triange, make the intersection lines magenta
-							::g_pDebugRenderer->addLine( pObjectA->position, pObjectB->position, 
-														 glm::vec3( 1.0f, 0.0f, 1.0f ), 
-														 2.0f /*show for 2 seconds*/ );
-						}
-					}//if(TestForCollision(...
-				}
-			}//if(pObjectA != pObjectB)
+							// Do something about that collision.
+							// Usually it's the reflection vector+normal changing velocity
+
+							//pObjectB->objColour = glm::vec3( 0.0f, 0.0f, 1.0f );
+							//pObjectA->objColour = glm::vec3( 0.0f, 0.0f, 1.0f );
+
+
+							if ((pObjectA->shapeType == cMeshObject::SPHERE) && (pObjectB->shapeType == cMeshObject::SPHERE))
+							{
+								if (pObjectA->friendlyName != "beam" && pObjectB->friendlyName != "beam")
+								{
+									pObjectA->position = pObjectA->initPos;
+									pObjectA->velocity = glm::vec3(0.0f);
+									pObjectA->accel = glm::vec3(0.0f);
+
+									pObjectB->position = pObjectB->initPos;
+									pObjectB->velocity = glm::vec3(0.0f);
+									pObjectB->accel = glm::vec3(0.0f);
+									
+								}
+								//if (pObjectB->friendlyName != "beam")
+								//{
+								//	pObjectB->bIsVisible = false;
+								//	pObjectB->bIsUpdatedByPhysics = false;
+								//}
+								if(pObjectA->friendlyName != "beam" && pObjectB->friendlyName == "beam")
+								{
+
+									pObjectA->position = pObjectA->initPos;
+									pObjectA->velocity = glm::vec3(0.0f);
+									pObjectA->accel = glm::vec3(0.0f);
+
+									pObjectB->bIsVisible = false;
+									//HACK
+									pObjectB->position = glm::vec3(1500.0f);
+									
+								}
+								if (pObjectA->friendlyName != "beam" && pObjectA->friendlyName == "beam")
+								{
+
+									pObjectB->position = pObjectA->initPos;
+									pObjectB->velocity = glm::vec3(0.0f);
+									pObjectB->accel = glm::vec3(0.0f);
+
+									pObjectA->bIsVisible = false;
+									//HACK
+									pObjectA->position = glm::vec3(1500.0f);
+
+								}
+								// If it's a Sphere-Sphere, make the intersection lines yellow
+								//::g_pDebugRenderer->addLine(pObjectA->position, pObjectB->position,
+								//	glm::vec3(1.0f, 1.0f, 0.0f),
+								//	2.0f /*show for 2 seconds*/);
+							}
+							else if ((pObjectA->shapeType == cMeshObject::SPHERE) && (pObjectB->shapeType == cMeshObject::TRIANGLE))
+							{
+								// If it's a Sphere-Triange, make the intersection lines magenta
+								//::g_pDebugRenderer->addLine(pObjectA->position, pObjectB->position,
+								//	glm::vec3(1.0f, 0.0f, 1.0f),
+								//	2.0f /*show for 2 seconds*/);
+							}
+						}//if(TestForCollision(...
+					}
+				}//if(pObjectA != pObjectB)
+			}
 		}// inner loop
 	}// outer loop
 

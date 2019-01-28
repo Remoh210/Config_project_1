@@ -64,6 +64,7 @@ bool cSceneManager::saveScene(std::string filename) {
 			rapidjson::Value DontLight(CurModel->bDontLight);
 			rapidjson::Value UsePhysics(CurModel->bIsUpdatedByPhysics);
 			rapidjson::Value WireFrame(CurModel->bIsWireFrame);
+			
 
 
 
@@ -102,6 +103,12 @@ bool cSceneManager::saveScene(std::string filename) {
 			ObjValue.AddMember("SpecularRGB_Alpha", SpecularRGBArray, allocator);
 			ObjValue.AddMember("Rotation", Rotation, allocator);
 			ObjValue.AddMember("Scale", Scale, allocator);
+			if (CurModel->shapeType == cMeshObject::SPHERE)
+			{
+				sSphere* sphere = (sSphere*)(CurModel->pTheShape);
+				rapidjson::Value temp(sphere->radius);
+				ObjValue.AddMember("Collider_Radius", temp, allocator);
+			}
 
 			//Textures
 			if (CurModel->vecTextures.size() > 0) {
@@ -311,6 +318,12 @@ bool cSceneManager::loadScene(std::string filename) {
 
 			CurModel->nonUniformScale[i] = ScaleArray[i].GetFloat();
 
+		}
+
+		if (GameObject[i].HasMember("Collider_Radius"))
+		{
+			CurModel->shapeType = cMeshObject::SPHERE;
+			CurModel->pTheShape = new sSphere(GameObject[i]["Collider_Radius"].GetFloat());
 		}
 
 		if (GameObject[i].HasMember("Textures")) {

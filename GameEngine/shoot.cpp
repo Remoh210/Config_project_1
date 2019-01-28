@@ -2,7 +2,7 @@
 void shoot(cMeshObject* WhoIsShooting, float VelMult, glm::vec3 RelPos = glm::vec3(0.0f))
 {
 	//cMeshObject* beam = findObjectByFriendlyName("DebugSphere");
-	cMeshObject* leftWing = findObjectByFriendlyName("DebugSphereLeft");
+	//cMeshObject* leftWing = findObjectByFriendlyName("DebugSphereLeft");
 	//cMeshObject* rightWing = findObjectByFriendlyName("DebugSphereLeft");
 	//cMeshObject* xWing = findObjectByFriendlyName("player");
 	glm::vec4 beam_ModelSpace = glm::vec4(0.0f, 0.0f, 5.0f, 1.0f) + glm::vec4(RelPos, 0.0f);
@@ -72,14 +72,14 @@ void shoot(cMeshObject* WhoIsShooting, float VelMult, glm::vec3 RelPos = glm::ve
 
 	pBeam->bIsVisible = true;
 	//pBeam2->velocity = xWing->velocity * 15.0f;
-	pBeam->velocity = glm::vec3(beam_WorldSpace.x, beam_WorldSpace.y, beam_WorldSpace.z * 4.0f);
+	pBeam->velocity = WhoIsShooting->velocity * 2.0f;
 }
 
 
 void shoot(cMeshObject* WhoIsShooting, cMeshObject* Target, float speed, glm::vec3 RelPos = glm::vec3(0.0f))
 {
 	//cMeshObject* beam = findObjectByFriendlyName("DebugSphere");
-	cMeshObject* leftWing = findObjectByFriendlyName("DebugSphereLeft");
+	//cMeshObject* leftWing = findObjectByFriendlyName("DebugSphereLeft");
 	//cMeshObject* rightWing = findObjectByFriendlyName("DebugSphereLeft");
 	//cMeshObject* xWing = findObjectByFriendlyName("player");
 	glm::vec4 beam_ModelSpace = glm::vec4(RelPos, 1.0f);

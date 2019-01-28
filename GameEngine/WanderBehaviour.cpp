@@ -4,7 +4,7 @@
 
 
 float RandomFloat(float a, float b);
-WanderBehaviour::WanderBehaviour(cMeshObject* agent, cMeshObject* target, float maxSpeed, float maxForce, float timeToWait, float upLim, float dwLim)
+WanderBehaviour::WanderBehaviour(cMeshObject* agent, float maxSpeed, float maxForce, float timeToWait, float upLim, float dwLim)
 	: mAgent(agent)
 	//, mTarget(target)
 	, mMaxSpeed(maxSpeed)

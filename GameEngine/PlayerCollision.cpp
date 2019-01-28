@@ -12,23 +12,36 @@
 #include <glm/vec4.hpp> // glm::vec4
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
-
+cMeshObject* pDebugSphere;
 
 
 void InitGame() {
+	behavManager = new BehaviourManager();
+
 	cMeshObject* pPlayer = findObjectByFriendlyName("player");
 	cMeshObject* pEnemy = findObjectByFriendlyName("enemy");
-	behavManager = new BehaviourManager();
-	//WanderBehaviour* wander = new WanderBehaviour(pEnemy, pPlayer, 7.2f, 1.2f, 0.0f, 30.0f, -30.0f);
-    //behavManager->SetBehaviour(pEnemy, wander);
-	ApproachBehaviour* approach = new ApproachBehaviour(pEnemy, pPlayer, 15.2f, 4.2f);
+	cMeshObject* pWanderEnemy = findObjectByFriendlyName("wanderEnemy");
+	cMeshObject* pPuruseEnemy = findObjectByFriendlyName("puruseEnemy");
+	cMeshObject* pSeekEnemy = findObjectByFriendlyName("seekEnemy");
+	pDebugSphere = findObjectByFriendlyName("DebugSphere");
+
+	pPlayer->initPos = pPlayer->position;
+	pEnemy->initPos = pEnemy->position;
+	pWanderEnemy->initPos = pWanderEnemy->position;
+	pPuruseEnemy->initPos = pPuruseEnemy->position;
+	pSeekEnemy->initPos = pSeekEnemy->position;
+
+	ApproachBehaviour* approach = new ApproachBehaviour(pEnemy, pPlayer, 25.2f, 14.2f);
 	behavManager->SetBehaviour(pEnemy, approach);
-	//PursueAndEvadeBehaviour* PursueAndEvade = new PursueAndEvadeBehaviour(pEnemy, pPlayer, 10.2f, 10.2f);
-	//behavManager->SetBehaviour(pEnemy, PursueAndEvade);
-	//SeekAndFleeBehaviour* seekAndFlee = new SeekAndFleeBehaviour(pEnemy, pPlayer, 7.2f, 10.0f, 20.0f, 45.0f, 40.0f);
-	//behavManager->SetBehaviour(pEnemy, seekAndFlee);
+	WanderBehaviour* wander = new WanderBehaviour(pWanderEnemy, 22.2f, 10.2f, 0.0f, 30.0f, -30.0f);
+    behavManager->SetBehaviour(pWanderEnemy, wander);
+	PursueAndEvadeBehaviour* PursueAndEvade = new PursueAndEvadeBehaviour(pPuruseEnemy, pPlayer, 28.2f, 10.2f);
+	behavManager->SetBehaviour(pPuruseEnemy, PursueAndEvade);
+	SeekAndFleeBehaviour* seekAndFlee = new SeekAndFleeBehaviour(pSeekEnemy, pPlayer, 24.2f, 10.0f, 5.0f, 45.0f, 60.0f);
+	behavManager->SetBehaviour(pSeekEnemy, seekAndFlee);
 	//FleeBehaviour* flee = new FleeBehaviour(pEnemy, pPlayer, 7.2f, 4.2f);
 	//behavManager->SetBehaviour(pEnemy, flee);
+	
 }
 
 void PlayerColTest(double deltaTime, GLuint shaderProgramID)
@@ -36,6 +49,20 @@ void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 	cMeshObject* pPlayer = findObjectByFriendlyName("player");
 	cMeshObject* pEnemy = findObjectByFriendlyName("enemy");
 	behavManager->update(deltaTime);
+
+	for (int i = 0; i < vec_pObjectsToDraw.size(); i++)
+	{
+		if (vec_pObjectsToDraw[i]->shapeType == cMeshObject::SPHERE)
+		{
+			sSphere* sphere = (sSphere*)(vec_pObjectsToDraw[i]->pTheShape);
+			pDebugSphere->position = vec_pObjectsToDraw[i]->position;
+			pDebugSphere->setUniformScale(sphere->radius);
+			pDebugSphere->bIsVisible = true;
+			glm::mat4 matIdentity = glm::mat4(1.0f);
+			DrawObject(pDebugSphere, matIdentity, program);
+			pDebugSphere->bIsVisible = false;
+		}
+	}
 	//cMeshObject* pDebugSphereLeft = findObjectByFriendlyName("DebugSphereLeft");
 	//cMeshObject* pDebugSphereRight = findObjectByFriendlyName("DebugSphereRight");
 	//cMeshObject* pDebugSphereNose = findObjectByFriendlyName("DebugSphereNose");
@@ -69,7 +96,7 @@ void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 		pPlayer->position);
 
 	
-
+	//pPlayerSpheres->position = pPlayer->position;
 	//matTransform = matTransform * matTranslation;
 	//glm::quat qRotation = pPlayer->getQOrientation();
 	//glm::mat4 matQrotation = glm::mat4(qRotation);

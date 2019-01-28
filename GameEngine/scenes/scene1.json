@@ -1,6 +1,6 @@
 {
     "Camera": {
-        "Speed": 10.0,
+        "Speed": 60.0,
         "Position": [
             2.5318167209625246,
             125.829652309417725,
@@ -17,7 +17,7 @@
             "Wireframe": false,
             "Position": [
                 0.0,
-                0.0,
+              -20.0,
                 0.0
             ],
             "DiffuseRGB_Alpha": [
@@ -39,9 +39,9 @@
                 1.0
             ],
             "Scale": [
-                1.0,
-                1.0,
-                1.0
+                4.0,
+                4.0,
+                4.0
             ],
             "Textures": [
                 {
@@ -81,10 +81,11 @@
                 1.0
             ],
             "Scale": [
-                1.0,
-                1.0,
-                1.0
+                2.0,
+                2.0,
+                2.0
             ],
+            "Collider_Radius" : 2.0,
             "Textures": [
                 {
                     "Name": "x-wingTex.bmp",
@@ -100,9 +101,9 @@
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
-                20.0,
+                40.0,
                 0.0,
-                0.0
+                30.0
             ],
             "DiffuseRGB_Alpha": [
                 0.0,
@@ -127,9 +128,139 @@
                 1.0,
                 1.0
             ],
+            "Collider_Radius" : 2.0,
             "Textures": [
                 {
                     "Name": "EnemyTexRed.bmp",
+                    "Strength": 1.0
+                }
+            ]
+        },
+        {
+            "Name": "wanderEnemy",
+            "Mesh": "enemy.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Dont_light": false,
+            "Wireframe": false,
+            "Position": [
+                70.0,
+                0.0,
+                10.0
+            ],
+            "DiffuseRGB_Alpha": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                100.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Collider_Radius" : 2.0,
+            "Textures": [
+                {
+                    "Name": "EnemyTex.bmp",
+                    "Strength": 1.0
+                }
+            ]
+        },
+        {
+            "Name": "puruseEnemy",
+            "Mesh": "enemy.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Dont_light": false,
+            "Wireframe": false,
+            "Position": [
+                -70.0,
+                0.0,
+                -30.0
+            ],
+            "DiffuseRGB_Alpha": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                100.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Collider_Radius" : 2.0,
+            "Textures": [
+                {
+                    "Name": "EnemyTexBlue.bmp",
+                    "Strength": 1.0
+                }
+            ]
+        },
+        {
+            "Name": "seekEnemy",
+            "Mesh": "enemy.ply",
+            "Visible": true,
+            "Use_Physics": true,
+            "Dont_light": false,
+            "Wireframe": false,
+            "Position": [
+                -45.0,
+                0.0,
+                50.0
+            ],
+            "DiffuseRGB_Alpha": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                100.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "Collider_Radius" : 2.0,
+            "Textures": [
+                {
+                    "Name": "EnemyTexGreen.bmp",
                     "Strength": 1.0
                 }
             ]

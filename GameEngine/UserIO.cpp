@@ -70,7 +70,8 @@ void key_callback( GLFWwindow* window,
 		//saveModelInfo("Models2.txt", vec_pObjectsToDraw);
 		//saveLightInfo("lights.txt", LightManager->vecLights);
 		//findObjectByFriendlyName("player");
-		shoot(findObjectByFriendlyName("player"), 2.0f);
+		cMeshObject* player = findObjectByFriendlyName("player");
+		shoot(player, 2.0f);
 	}
 
 	//LOAD MODELS
@@ -89,7 +90,7 @@ void key_callback( GLFWwindow* window,
 	if (glfwGetKey(window, GLFW_KEY_ENTER))
 	{
 		
-		::g_pSceneManager->saveScene("scene1.json");
+		::g_pSceneManager->saveScene("level1.json");
 		//::g_pSceneManager->loadScene("output.json");
 		//CreateModels("Models.txt", g_pTheVAOMeshManager, program);
 

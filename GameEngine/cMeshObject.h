@@ -63,7 +63,7 @@ public:
 	void adjMeshOrientationQ(glm::quat adjOrientQ);
 	void setQOrientation(glm::quat newOrientation){ this->m_meshQOrientation = newOrientation; }
 
-
+	float time_dead;
 	void setUniformScale(float scale);
 	glm::vec3 nonUniformScale;
 

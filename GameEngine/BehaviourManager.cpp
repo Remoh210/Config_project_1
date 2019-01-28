@@ -45,7 +45,7 @@ void BehaviourManager::RemoveAgent(cMeshObject* agent) {
 void BehaviourManager::update(float dt) {
 	for (behaviour_iterator itAgent = mBehaviourMap.begin();
 		itAgent != mBehaviourMap.end(); itAgent++) {
-		if (itAgent->second != 0) {
+		if (itAgent->second != 0 && itAgent->first->bIsVisible == true) {
 			itAgent->second->update(dt);
 		}
 	}

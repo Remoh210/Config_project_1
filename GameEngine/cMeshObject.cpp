@@ -15,7 +15,7 @@ cMeshObject::cMeshObject()
 	this->bIsDebug = false;
 	this->bIsVisible = true;
 	this->bIsWireFrame = false;
-
+	this->time_dead = 0.0f;
 	// Set unique ID
 	this->m_uniqueID = cMeshObject::m_NextID;
 	// Increment

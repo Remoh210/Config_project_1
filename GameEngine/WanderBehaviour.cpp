@@ -1,20 +1,22 @@
 #include "WanderBehaviour.h"
-#include <GLFW/glfw3.h>
+//#include <GLFW/glfw3.h>
 #include <iostream>
+#include "globalStuff.h"
 
 
 float RandomFloat(float a, float b);
-WanderBehaviour::WanderBehaviour(cMeshObject* agent, float maxSpeed, float maxForce, float timeToWait, float upLim, float dwLim)
+WanderBehaviour::WanderBehaviour(cMeshObject* agent, float maxSpeed, float maxForce, float timeToWait, glm::vec3 RelPos, float upLim, float dwLim)
 	: mAgent(agent)
 	//, mTarget(target)
 	, mMaxSpeed(maxSpeed)
 	, mMaxForce(maxForce)
 	, mTimeToWait(timeToWait)
+	, mRelPos(RelPos)
 	, mUpLim(upLim)
 	, mDwnLim(dwLim)
 {
 	mStart = true;
-	mCurTarget = glm::vec3(RandomFloat(mDwnLim, mUpLim), 0.0f, RandomFloat(mDwnLim, mUpLim));
+	mCurTarget = glm::vec3(mRelPos.x + RandomFloat(mDwnLim, mUpLim), 0.0f, mRelPos.z + RandomFloat(mDwnLim, mUpLim));
 	mTimeWaitedSoFar = 0.0f;
 }
 
@@ -68,16 +70,21 @@ void WanderBehaviour::update(float dt)
 		mTimeWaitedSoFar += (float)dt;
 		if (mTimeWaitedSoFar > mTimeToWait)
 		{
-			mCurTarget = glm::vec3(RandomFloat(-30.0f, 30), 0.0f, RandomFloat(-30.0f, 30));
+			mCurTarget = glm::vec3(mRelPos.x + RandomFloat(mDwnLim, mUpLim), 0.0f, mRelPos.z + RandomFloat(mDwnLim, mUpLim));
 			mStart = true;
 		}
 	}
 	else
 	{
-		mCurTarget = glm::vec3(RandomFloat(mDwnLim, mUpLim), 0.0f, RandomFloat(mDwnLim, mUpLim));
+		mCurTarget = glm::vec3(mRelPos.x + RandomFloat(mDwnLim, mUpLim), 0.0f, mRelPos.z + RandomFloat(mDwnLim, mUpLim));
 	}
 	
-	
+	cMeshObject* pDebugSph = findObjectByFriendlyName("DebugSphere");
+	pDebugSph->position = mCurTarget;
+	pDebugSph->setUniformScale(2.0f);
+	pDebugSph->setDiffuseColour(glm::vec3(1.0f, 0.0f, 0.0f));
+	glm::mat4 iden = glm::mat4(1.0f);
+	DrawObject(pDebugSph, iden, program);
 	
 }
 

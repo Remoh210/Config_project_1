@@ -238,13 +238,27 @@ void DoPhysicsUpdate( double fDeltaTime,
 							{
 								if (pObjectA->friendlyName != "beam" && pObjectB->friendlyName != "beam")
 								{
-									pObjectA->position = pObjectA->initPos;
-									pObjectA->velocity = glm::vec3(0.0f);
-									pObjectA->accel = glm::vec3(0.0f);
+									if (pObjectA->friendlyName == "player") {
+										pObjectA->position = pObjectA->initPos;
+										pObjectA->velocity = glm::vec3(0.0f);
+										pObjectA->accel = glm::vec3(0.0f);
+									}
+									else
+									{
+										pObjectA->bIsVisible = false;
+										pObjectA->bIsUpdatedByPhysics = false;
+									}
 
-									pObjectB->position = pObjectB->initPos;
-									pObjectB->velocity = glm::vec3(0.0f);
-									pObjectB->accel = glm::vec3(0.0f);
+									if (pObjectB->friendlyName == "player") {
+										pObjectB->position = pObjectB->initPos;
+										pObjectB->velocity = glm::vec3(0.0f);
+										pObjectB->accel = glm::vec3(0.0f);
+									}
+									else
+									{
+										pObjectB->bIsVisible = false;
+										pObjectB->bIsUpdatedByPhysics = false;
+									}
 									
 								}
 								//if (pObjectB->friendlyName != "beam")
@@ -254,26 +268,41 @@ void DoPhysicsUpdate( double fDeltaTime,
 								//}
 								if(pObjectA->friendlyName != "beam" && pObjectB->friendlyName == "beam")
 								{
-
-									pObjectA->position = pObjectA->initPos;
-									pObjectA->velocity = glm::vec3(0.0f);
-									pObjectA->accel = glm::vec3(0.0f);
-
+									//delete laser
 									pObjectB->bIsVisible = false;
-									//HACK
-									pObjectB->position = glm::vec3(1500.0f);
+									pObjectB->position = glm::vec3(1000.0f); //hack 
+
+									if (pObjectA->friendlyName == "player") {
+										pObjectA->position = pObjectA->initPos;
+										pObjectA->velocity = glm::vec3(0.0f);
+										pObjectA->accel = glm::vec3(0.0f);
+
+
+									}
+									else {
+										pObjectA->bIsVisible = false;
+										pObjectA->bIsUpdatedByPhysics = false;
+									}
 									
 								}
 								if (pObjectA->friendlyName != "beam" && pObjectA->friendlyName == "beam")
 								{
-
-									pObjectB->position = pObjectA->initPos;
-									pObjectB->velocity = glm::vec3(0.0f);
-									pObjectB->accel = glm::vec3(0.0f);
-
 									pObjectA->bIsVisible = false;
 									//HACK
 									pObjectA->position = glm::vec3(1500.0f);
+
+									if (pObjectB->friendlyName == "player") {
+										pObjectB->position = pObjectA->initPos;
+										pObjectB->velocity = glm::vec3(0.0f);
+										pObjectB->accel = glm::vec3(0.0f);
+									}
+									else
+									{
+										pObjectB->bIsVisible = false;
+										pObjectB->bIsUpdatedByPhysics = false;
+									}
+
+									
 
 								}
 								// If it's a Sphere-Sphere, make the intersection lines yellow

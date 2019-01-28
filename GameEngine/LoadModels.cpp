@@ -90,10 +90,11 @@ void LoadModelsIntoScene( std::vector<cMeshObject*> &vec_pObjectsToDraw )
 		pDebugSphere->nonUniformScale = glm::vec3(scale, scale, scale);
 		pDebugSphere->meshName = "Sphere_320.ply";
 		pDebugSphere->bIsWireFrame = true;
+		pDebugSphere->bDontLight = true;
 		pDebugSphere->position = glm::vec3(0.0f, 0.0f, 0.0f);
 		pDebugSphere->bIsUpdatedByPhysics = true;
 		pDebugSphere->bIsDebug = true;
-		pDebugSphere->bIsVisible = false;
+		pDebugSphere->bIsVisible = true;
 		pDebugSphere->pDebugRenderer = ::g_pDebugRenderer;
 		vec_pObjectsToDraw.push_back(pDebugSphere);
 	}

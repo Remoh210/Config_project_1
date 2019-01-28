@@ -286,11 +286,11 @@ bool AreAllModifiersUp(GLFWwindow* window)
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT)) {
 
-		player->adjMeshOrientationEulerAngles(0.0f, 0.01f, 0.0f);
+		player->adjMeshOrientationEulerAngles(0.0f, 1.11f * deltaTime, 0.0f);
 	}
 	if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
 
-		player->adjMeshOrientationEulerAngles(0.0f, -0.01f, 0.0f);
+		player->adjMeshOrientationEulerAngles(0.0f, -1.11f * deltaTime, 0.0f);
 	}
 	//else{ player->accel = -player->velocity * 1.0f; }
 //	camera.Position = player->position + glm::vec3(0.0f, 0.0f, 0.5f);

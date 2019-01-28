@@ -6,7 +6,7 @@
 
 class WanderBehaviour : public Behaviour {
 public:
-	WanderBehaviour(cMeshObject* agent, float maxSpeed, float maxForce, float timeToWait, float upLim, float dwLim);
+	WanderBehaviour(cMeshObject* agent, float maxSpeed, float maxForce, float timeToWait, glm::vec3 RelPos, float upLim, float dwLim);
 	virtual ~WanderBehaviour(void);
 
 	virtual void update(float dt);
@@ -23,6 +23,7 @@ private:
 	float mTimeWaitedSoFar;
 	bool mStart;
 	glm::vec3 mCurTarget;
+	glm::vec3 mRelPos;
 };
 
 #endif

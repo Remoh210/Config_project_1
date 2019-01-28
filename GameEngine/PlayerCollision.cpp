@@ -13,27 +13,31 @@
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 cMeshObject* pDebugSphere;
-
+std::vector <cMeshObject*> vec_Enemies;
 
 void InitGame() {
 	behavManager = new BehaviourManager();
 
 	cMeshObject* pPlayer = findObjectByFriendlyName("player");
-	cMeshObject* pEnemy = findObjectByFriendlyName("enemy");
+	cMeshObject* pApproachEnemy = findObjectByFriendlyName("enemy");
+	vec_Enemies.push_back(pApproachEnemy);
 	cMeshObject* pWanderEnemy = findObjectByFriendlyName("wanderEnemy");
+	vec_Enemies.push_back(pWanderEnemy);
 	cMeshObject* pPuruseEnemy = findObjectByFriendlyName("puruseEnemy");
+	vec_Enemies.push_back(pPuruseEnemy);
 	cMeshObject* pSeekEnemy = findObjectByFriendlyName("seekEnemy");
+	vec_Enemies.push_back(pSeekEnemy);
 	pDebugSphere = findObjectByFriendlyName("DebugSphere");
 
 	pPlayer->initPos = pPlayer->position;
-	pEnemy->initPos = pEnemy->position;
+	pApproachEnemy->initPos = pApproachEnemy->position;
 	pWanderEnemy->initPos = pWanderEnemy->position;
 	pPuruseEnemy->initPos = pPuruseEnemy->position;
 	pSeekEnemy->initPos = pSeekEnemy->position;
 
-	ApproachBehaviour* approach = new ApproachBehaviour(pEnemy, pPlayer, 25.2f, 14.2f);
-	behavManager->SetBehaviour(pEnemy, approach);
-	WanderBehaviour* wander = new WanderBehaviour(pWanderEnemy, 22.2f, 10.2f, 0.0f, 30.0f, -30.0f);
+	ApproachBehaviour* approach = new ApproachBehaviour(pApproachEnemy, pPlayer, 25.2f, 14.2f);
+	behavManager->SetBehaviour(pApproachEnemy, approach);
+	WanderBehaviour* wander = new WanderBehaviour(pWanderEnemy, 22.2f, 10.2f, 0.0f, glm::vec3(0.0f), 30.0f, -30.0f);
     behavManager->SetBehaviour(pWanderEnemy, wander);
 	PursueAndEvadeBehaviour* PursueAndEvade = new PursueAndEvadeBehaviour(pPuruseEnemy, pPlayer, 28.2f, 10.2f);
 	behavManager->SetBehaviour(pPuruseEnemy, PursueAndEvade);
@@ -50,17 +54,21 @@ void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 	cMeshObject* pEnemy = findObjectByFriendlyName("enemy");
 	behavManager->update(deltaTime);
 
+	//draw Debug Info
 	for (int i = 0; i < vec_pObjectsToDraw.size(); i++)
 	{
 		if (vec_pObjectsToDraw[i]->shapeType == cMeshObject::SPHERE)
 		{
-			sSphere* sphere = (sSphere*)(vec_pObjectsToDraw[i]->pTheShape);
-			pDebugSphere->position = vec_pObjectsToDraw[i]->position;
-			pDebugSphere->setUniformScale(sphere->radius);
-			pDebugSphere->bIsVisible = true;
-			glm::mat4 matIdentity = glm::mat4(1.0f);
-			DrawObject(pDebugSphere, matIdentity, program);
-			pDebugSphere->bIsVisible = false;
+			if(vec_pObjectsToDraw[i]->bIsVisible)
+			{
+				sSphere* sphere = (sSphere*)(vec_pObjectsToDraw[i]->pTheShape);
+				pDebugSphere->position = vec_pObjectsToDraw[i]->position;
+				pDebugSphere->setUniformScale(sphere->radius);
+				pDebugSphere->setDiffuseColour(glm::vec3(0.0f, 1.0f, 0.0f));
+				glm::mat4 matIdentity = glm::mat4(1.0f);
+				DrawObject(pDebugSphere, matIdentity, program);
+			}
+			//pDebugSphere->bIsVisible = false;
 		}
 	}
 	//cMeshObject* pDebugSphereLeft = findObjectByFriendlyName("DebugSphereLeft");
@@ -122,12 +130,31 @@ void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 	//LightManager->vecLights.at(7)->position = glm::vec4(noseContactPoint_WorldSpace);
 	//LightManager->vecLights.at(7)->SetRelativeDirection(glm::normalize(pPlayer->velocity));
 
+	//increase timer if enemy is "dead"
+	for (int i = 0; i < vec_Enemies.size(); i++)
+	{
+		if (!vec_Enemies[i]->bIsVisible)
+		{
+			vec_Enemies[i]->time_dead += (float)deltaTime;
+			if (vec_Enemies[i]->time_dead > 4.0f)
+			{
+				vec_Enemies[i]->position = vec_Enemies[i]->initPos;
+				vec_Enemies[i]->bIsUpdatedByPhysics = true;
+				vec_Enemies[i]->bIsVisible = true;
+
+				vec_Enemies[i]->time_dead = 0.0f;
+			}
+		}
+
+	}
+
+
 	
 	for (int i = 0; i < vec_pObjectsToDraw.size(); i++)
 	{
 		if (vec_pObjectsToDraw[i]->friendlyName == "beam")
 		{
-			if (glm::distance(vec_pObjectsToDraw[i]->initPos, vec_pObjectsToDraw[i]->position) > 1500.0f)
+			if (glm::distance(vec_pObjectsToDraw[i]->initPos, vec_pObjectsToDraw[i]->position) > 300.0f)
 			{
 				//vec_pObjectsToDraw[i].
 				delete vec_pObjectsToDraw[i];
@@ -135,6 +162,20 @@ void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 			}
 		}
 	}
+
+
+
+	////Respawn Dead Enemies
+	//for (int i; i < vec_Enemies.size(); i++)
+	//{
+	//	mTimeWaitedSoFar += (float)dt;
+	//	if (mTimeWaitedSoFar > mTimeToWait)
+	//	{
+	//		mCurTarget = glm::vec3(mRelPos.x + RandomFloat(mDwnLim, mUpLim), 0.0f, mRelPos.z + RandomFloat(mDwnLim, mUpLim));
+	//		mStart = true;
+	//	}
+	//	//Ressurect!
+	//}
 
 	return;
 }

@@ -3,6 +3,7 @@
 #include <string>
 #include "Camera.h"
 #include "cSceneManager.h"
+#include "shoot.h"
 //#include <vector>
 #include <iostream>
 //include "TextureCTextureFromBMP.h"
@@ -22,7 +23,7 @@ float lastY = SCR_HEIGHT / 2.0f;
 
 std::string Answer;
 void ManageScene(GLFWwindow* window);
-void shoot();
+//void shoot();
 bool bIsPicked = false;
 cMeshObject* closedModel;
 bool bMouseInWindow = false;
@@ -68,7 +69,8 @@ void key_callback( GLFWwindow* window,
 	{
 		//saveModelInfo("Models2.txt", vec_pObjectsToDraw);
 		//saveLightInfo("lights.txt", LightManager->vecLights);
-		shoot();
+		//findObjectByFriendlyName("player");
+		shoot(findObjectByFriendlyName("player"), 2.0f);
 	}
 
 	//LOAD MODELS

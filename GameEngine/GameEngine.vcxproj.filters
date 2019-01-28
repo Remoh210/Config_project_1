@@ -222,9 +222,6 @@
     <ClCompile Include="cTextRend.cpp">
       <Filter>TextManager</Filter>
     </ClCompile>
-    <ClCompile Include="shoot.cpp">
-      <Filter>SimpleGame</Filter>
-    </ClCompile>
     <ClCompile Include="BehaviourManager.cpp">
       <Filter>Behavior</Filter>
     </ClCompile>
@@ -244,6 +241,12 @@
       <Filter>Behavior</Filter>
     </ClCompile>
     <ClCompile Include="WanderBehaviour.cpp">
+      <Filter>Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="ApproachBehaviour.cpp">
+      <Filter>Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="shoot.cpp">
       <Filter>Behavior</Filter>
     </ClCompile>
   </ItemGroup>
@@ -381,6 +384,12 @@
       <Filter>Behavior</Filter>
     </ClInclude>
     <ClInclude Include="WanderBehaviour.h">
+      <Filter>Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="ApproachBehaviour.h">
+      <Filter>Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="shoot.h">
       <Filter>Behavior</Filter>
     </ClInclude>
   </ItemGroup>

@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ApproachBehaviour.cpp" />
     <ClCompile Include="BehaviourManager.cpp" />
     <ClCompile Include="cAABB.cpp" />
     <ClCompile Include="cAnimationCurveCommand.cpp" />
@@ -207,6 +208,7 @@
     <ClCompile Include="WanderBehaviour.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ApproachBehaviour.h" />
     <ClInclude Include="Behaviour.h" />
     <ClInclude Include="BehaviourManager.h" />
     <ClInclude Include="cAABB.h" />
@@ -243,6 +245,7 @@
     <ClInclude Include="PursueAndEvadeBehaviour.h" />
     <ClInclude Include="SeekAndFleeBehaviour.h" />
     <ClInclude Include="SeekBehaviour.h" />
+    <ClInclude Include="shoot.h" />
     <ClInclude Include="sModelDrawInfo.h" />
     <ClInclude Include="SmoothStep.h" />
     <ClInclude Include="sNVPair.h" />

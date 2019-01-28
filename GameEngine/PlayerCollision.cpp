@@ -3,6 +3,7 @@
 #include "SeekBehaviour.h"
 #include "FleeBehaviour.h"
 #include "SeekAndFleeBehaviour.h"
+#include "ApproachBehaviour.h"
 #include "PursueAndEvadeBehaviour.h"
 #include "WanderBehaviour.h"
 
@@ -18,9 +19,10 @@ void InitGame() {
 	cMeshObject* pPlayer = findObjectByFriendlyName("player");
 	cMeshObject* pEnemy = findObjectByFriendlyName("enemy");
 	behavManager = new BehaviourManager();
-	WanderBehaviour* wander = new WanderBehaviour(pEnemy, pPlayer, 7.2f, 1.2f, 0.0f, 30.0f, -30.0f);
-    behavManager->SetBehaviour(pEnemy, wander);
-
+	//WanderBehaviour* wander = new WanderBehaviour(pEnemy, pPlayer, 7.2f, 1.2f, 0.0f, 30.0f, -30.0f);
+    //behavManager->SetBehaviour(pEnemy, wander);
+	ApproachBehaviour* approach = new ApproachBehaviour(pEnemy, pPlayer, 15.2f, 4.2f);
+	behavManager->SetBehaviour(pEnemy, approach);
 	//PursueAndEvadeBehaviour* PursueAndEvade = new PursueAndEvadeBehaviour(pEnemy, pPlayer, 10.2f, 10.2f);
 	//behavManager->SetBehaviour(pEnemy, PursueAndEvade);
 	//SeekAndFleeBehaviour* seekAndFlee = new SeekAndFleeBehaviour(pEnemy, pPlayer, 7.2f, 10.0f, 20.0f, 45.0f, 40.0f);
@@ -98,8 +100,10 @@ void PlayerColTest(double deltaTime, GLuint shaderProgramID)
 	{
 		if (vec_pObjectsToDraw[i]->friendlyName == "beam")
 		{
-			if (glm::distance(vec_pObjectsToDraw[i]->initPos, vec_pObjectsToDraw[i]->position) > 2500.0f)
+			if (glm::distance(vec_pObjectsToDraw[i]->initPos, vec_pObjectsToDraw[i]->position) > 1500.0f)
 			{
+				//vec_pObjectsToDraw[i].
+				delete vec_pObjectsToDraw[i];
 				vec_pObjectsToDraw.erase(vec_pObjectsToDraw.begin() + i);
 			}
 		}

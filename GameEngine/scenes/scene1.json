@@ -129,7 +129,7 @@
             ],
             "Textures": [
                 {
-                    "Name": "EnemyTex.bmp",
+                    "Name": "EnemyTexRed.bmp",
                     "Strength": 1.0
                 }
             ]

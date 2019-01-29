@@ -14,6 +14,7 @@
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 cMeshObject* pDebugSphere;
+cMeshObject* pEarth;
 std::vector <cMeshObject*> vec_Enemies;
 int stage;
 int enemyCount;
@@ -28,6 +29,7 @@ void InitGame() {
 	behavManager = new BehaviourManager();
 
 	cMeshObject* pPlayer = findObjectByFriendlyName("player");
+	pEarth = findObjectByFriendlyName("earth");
 	cMeshObject* pApproachEnemy = findObjectByFriendlyName("enemy");
 	vec_Enemies.push_back(pApproachEnemy);
 	cMeshObject* pWanderEnemy = findObjectByFriendlyName("wanderEnemy");
@@ -103,15 +105,17 @@ void GameLoop(double deltaTime, GLuint shaderProgramID)
 
 
 
-	glm::vec4 vecForwardDirection_ModelSpace = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+	//glm::vec4 vecForwardDirection_ModelSpace = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
 
-	glm::quat qPlayer29Rotation = pPlayer->getQOrientation();
-	glm::mat4 matQPlayer29rotation = glm::mat4(qPlayer29Rotation);
-	glm::vec4 vecForwardDirection_WorldSpace = matQPlayer29rotation * vecForwardDirection_ModelSpace;
-	vecForwardDirection_WorldSpace = glm::normalize(vecForwardDirection_WorldSpace);
-	float forwardSpeed = 20.5f;
+	//glm::quat qPlayer29Rotation = pPlayer->getQOrientation();
+	//glm::mat4 matQPlayer29rotation = glm::mat4(qPlayer29Rotation);
+	//glm::vec4 vecForwardDirection_WorldSpace = matQPlayer29rotation * vecForwardDirection_ModelSpace;
+	//vecForwardDirection_WorldSpace = glm::normalize(vecForwardDirection_WorldSpace);
+	//float forwardSpeed = 20.5f;
 	//float forwardSpeedThisFrame = forwardSpeed * deltaTime;
-	pPlayer->velocity = vecForwardDirection_WorldSpace * forwardSpeed;
+	//pPlayer->velocity = vecForwardDirection_WorldSpace * forwardSpeed;
+	//glm::mat4 rot = glm::inverse(glm::lookAt(mAgent->position, mAgent->position + mAgent->velocity, glm::vec3(0.0f, 1.0f, 0.0f)));
+	//pPlayer->m_meshQOrientation = glm::quat(glm::inverse(glm::lookAt(pPlayer->position, pPlayer->position - pPlayer->accel, glm::vec3(0.0f, 1.0f, 0.0f))));
 	
 	if (game_is_over)
 	{
@@ -254,7 +258,8 @@ void GameLoop(double deltaTime, GLuint shaderProgramID)
 	//	}
 	//	//Ressurect!
 	//}
-
+	//Animate Earth
+	pEarth->adjMeshOrientationEulerAngles(0.0f, -0.1f * deltaTime, 0.0f, false);
 	return;
 }
 

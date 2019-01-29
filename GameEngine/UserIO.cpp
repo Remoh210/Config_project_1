@@ -273,7 +273,15 @@ bool AreAllModifiersUp(GLFWwindow* window)
 			//player->adjMeshOrientationEulerAngles(-0.01f, 0.0f, 0.0f);
 		}
 		if (glfwGetKey(window, GLFW_KEY_UP)) {
+			glm::vec4 vecForwardDirection_ModelSpace = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
 
+			glm::quat qPlayer29Rotation = player->getQOrientation();
+			glm::mat4 matQPlayer29rotation = glm::mat4(qPlayer29Rotation);
+			glm::vec4 vecForwardDirection_WorldSpace = matQPlayer29rotation * vecForwardDirection_ModelSpace;
+			vecForwardDirection_WorldSpace = glm::normalize(vecForwardDirection_WorldSpace);
+			float forwardSpeed = 20.5f;
+			float forwardSpeedThisFrame = forwardSpeed * deltaTime;
+			player->velocity = vecForwardDirection_WorldSpace * forwardSpeed;
 			//player->adjMeshOrientationEulerAngles(0.01f, 0.0f, 0.0f);
 		}
 		if (glfwGetKey(window, GLFW_KEY_LEFT)) {
@@ -287,6 +295,7 @@ bool AreAllModifiersUp(GLFWwindow* window)
 	}
 	//else{ player->accel = -player->velocity * 1.0f; }
 //	camera.Position = player->position + glm::vec3(0.0f, 0.0f, 0.5f);
+	player->accel = -player->velocity * 0.2f;
 	return true;
 }
 
@@ -416,19 +425,20 @@ void ProcessAsynKeys(GLFWwindow* window)
 		if ( glfwGetKey( window, GLFW_KEY_E ) )	{ vec_pObjectsToDraw.at(index)->position.y += cameraSpeed; }
 
 		////Object Rotation
-		if (glfwGetKey(window, GLFW_KEY_RIGHT)) { vec_pObjectsToDraw.at(index)->adjMeshOrientationEulerAngles(0.0f, 0.1f, 0.0f, false); }
-		if (glfwGetKey(window, GLFW_KEY_LEFT)) {vec_pObjectsToDraw.at(index)->adjMeshOrientationEulerAngles(0.0f, -0.1f, 0.0f, false);}
-		//if ( glfwGetKey( window, GLFW_KEY_UP ) )	{ vec_pObjectsToDraw.at(index)->postRotation.x += 0.1f; }
-		//if ( glfwGetKey( window, GLFW_KEY_DOWN ) )	{ vec_pObjectsToDraw.at(index)->postRotation.x -= 0.1f; }
-		//if ( glfwGetKey( window, GLFW_KEY_X ) )		{ vec_pObjectsToDraw.at(index)->postRotation.z += 0.1f; }
-		//if ( glfwGetKey( window, GLFW_KEY_C ) )		{ vec_pObjectsToDraw.at(index)->postRotation.z -= 0.1f; }
+		if (glfwGetKey(window, GLFW_KEY_RIGHT   ))  { vec_pObjectsToDraw.at(index)->adjMeshOrientationEulerAngles(0.0f, 0.1f, 0.0f, false)  ;  }
+		if (glfwGetKey(window, GLFW_KEY_LEFT))      { vec_pObjectsToDraw.at(index)->adjMeshOrientationEulerAngles(0.0f, -0.1f, 0.0f, false) ;  }
+		if ( glfwGetKey( window, GLFW_KEY_UP ) )	{ vec_pObjectsToDraw.at(index)->adjMeshOrientationEulerAngles(0.1f, 0.0f, 0.0f, false)  ;  }
+		if (glfwGetKey(  window, GLFW_KEY_DOWN))    { vec_pObjectsToDraw.at(index)->adjMeshOrientationEulerAngles(-0.1f, 0.0f, 0.0f, false) ;  }
+		if (glfwGetKey(window, GLFW_KEY_X)) { vec_pObjectsToDraw.at(index)->adjMeshOrientationEulerAngles(0.0f, 0.0f, 0.1f, false); }
+		if ( glfwGetKey( window, GLFW_KEY_C ) )		{ vec_pObjectsToDraw.at(index)->adjMeshOrientationEulerAngles(0.0f, 0.0f, -0.1f, false);
+		}
 
 		if (glfwGetKey(window, GLFW_KEY_V)) { vec_pObjectsToDraw.at(index)->nonUniformScale += 0.2f; }
 		if (glfwGetKey(window, GLFW_KEY_B)) { vec_pObjectsToDraw.at(index)->nonUniformScale -= 0.2f; }
 
 
 
-		if (glfwGetKey(window, GLFW_KEY_UP))
+		/*if (glfwGetKey(window, GLFW_KEY_UP))
 		{
 			if (vec_pObjectsToDraw.at(index)->vecTextures.size() > 1)
 			{
@@ -445,7 +455,7 @@ void ProcessAsynKeys(GLFWwindow* window)
 				vec_pObjectsToDraw.at(index)->vecTextures.at(0).strength += 0.002f;
 			}
 			else { std::cout << vec_pObjectsToDraw.at(index)->friendlyName << " has only one texture" << std::endl; }
-		}
+		}*/
 
 		
 

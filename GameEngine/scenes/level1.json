@@ -3,7 +3,7 @@
         "Speed": 60.0,
         "Position": [
             2.5318167209625246,
-            125.829652309417725,
+            125.82965087890625,
             23.54558563232422
         ]
     },
@@ -17,7 +17,7 @@
             "Wireframe": false,
             "Position": [
                 0.0,
-              -20.0,
+                -20.0,
                 0.0
             ],
             "DiffuseRGB_Alpha": [
@@ -58,9 +58,9 @@
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
-                10.0,
+                292.30108642578127,
                 0.0,
-                0.0
+                1031.337158203125
             ],
             "DiffuseRGB_Alpha": [
                 0.0,
@@ -76,16 +76,16 @@
             ],
             "Rotation": [
                 0.0,
+                -0.16779911518096925,
                 0.0,
-                0.0,
-                1.0
+                -0.9858209490776062
             ],
             "Scale": [
                 2.0,
                 2.0,
                 2.0
             ],
-            "Collider_Radius" : 2.0,
+            "Collider_Radius": 2.0,
             "Textures": [
                 {
                     "Name": "x-wingTex.bmp",
@@ -96,14 +96,14 @@
         {
             "Name": "enemy",
             "Mesh": "enemy.ply",
-            "Visible": true,
-            "Use_Physics": true,
+            "Visible": false,
+            "Use_Physics": false,
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
-                40.0,
+                27.609670639038087,
                 0.0,
-                30.0
+                14.801012992858887
             ],
             "DiffuseRGB_Alpha": [
                 0.0,
@@ -119,16 +119,16 @@
             ],
             "Rotation": [
                 0.0,
+                0.41652172803878786,
                 0.0,
-                0.0,
-                1.0
+                0.9091257452964783
             ],
             "Scale": [
                 1.0,
                 1.0,
                 1.0
             ],
-            "Collider_Radius" : 2.0,
+            "Collider_Radius": 2.0,
             "Textures": [
                 {
                     "Name": "EnemyTexRed.bmp",
@@ -144,9 +144,9 @@
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
-                70.0,
+                15.823609352111817,
                 0.0,
-                10.0
+                28.973875045776368
             ],
             "DiffuseRGB_Alpha": [
                 0.0,
@@ -161,17 +161,17 @@
                 100.0
             ],
             "Rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
+                -0.0,
+                0.9840548038482666,
+                -0.0,
+                0.1778654009103775
             ],
             "Scale": [
                 1.0,
                 1.0,
                 1.0
             ],
-            "Collider_Radius" : 2.0,
+            "Collider_Radius": 2.0,
             "Textures": [
                 {
                     "Name": "EnemyTex.bmp",
@@ -182,8 +182,8 @@
         {
             "Name": "pursueEnemy",
             "Mesh": "enemy.ply",
-            "Visible": true,
-            "Use_Physics": true,
+            "Visible": false,
+            "Use_Physics": false,
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
@@ -214,7 +214,7 @@
                 1.0,
                 1.0
             ],
-            "Collider_Radius" : 2.0,
+            "Collider_Radius": 2.0,
             "Textures": [
                 {
                     "Name": "EnemyTexBlue.bmp",
@@ -225,8 +225,8 @@
         {
             "Name": "seekEnemy",
             "Mesh": "enemy.ply",
-            "Visible": true,
-            "Use_Physics": true,
+            "Visible": false,
+            "Use_Physics": false,
             "Dont_light": false,
             "Wireframe": false,
             "Position": [
@@ -257,7 +257,7 @@
                 1.0,
                 1.0
             ],
-            "Collider_Radius" : 2.0,
+            "Collider_Radius": 2.0,
             "Textures": [
                 {
                     "Name": "EnemyTexGreen.bmp",

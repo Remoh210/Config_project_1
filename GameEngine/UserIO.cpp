@@ -20,7 +20,7 @@ void switchVis(cMeshObject* obj) {obj->bIsVisible = !obj->bIsVisible;}
 
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
-
+bool game_is_over;
 std::string Answer;
 void ManageScene(GLFWwindow* window);
 //void shoot();
@@ -111,23 +111,22 @@ void key_callback( GLFWwindow* window,
 
 	if (glfwGetKey(window, GLFW_KEY_L))
 	{
-		loadModels("Models2.txt", vec_pObjectsToDraw);
-		loadLights("lights.txt", LightManager->vecLights);
+
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_R))
 	{
-		g_pTheTextureManager->filtType = 1;
+
 	}
 	if (glfwGetKey(window, GLFW_KEY_T))
 	{
-		g_pTheTextureManager->filtType = 2;
+
 	}
 
 	//VISABILITY
 	if (glfwGetKey(window, GLFW_KEY_SEMICOLON ))
 	{
-		switchVis(vec_pObjectsToDraw.at(index));
+		//switchVis(vec_pObjectsToDraw.at(index));
 	}
 
 
@@ -156,24 +155,17 @@ void key_callback( GLFWwindow* window,
 	}
 
 
-	if (key == GLFW_KEY_9 && action == GLFW_PRESS)
+
+
+	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
 	{
+		for (int i = 0; i < vec_pObjectsToDraw.size(); i++)
+		{
+			if (vec_pObjectsToDraw[i]->bIsDebug) {
+				vec_pObjectsToDraw[i]->bIsVisible = !vec_pObjectsToDraw[i]->bIsVisible;
+			}
+		}
 
-
-		//::p_LuaScripts->Update(deltaTime);
-
-		//::p_LuaScripts->UpdateCG(deltaTime);
-
-	}
-
-	if (key == GLFW_KEY_8 && action == GLFW_PRESS)
-	{
-
-
-		//::p_LuaScripts->Update(deltaTime);
-
-		//::p_LuaScripts->UpdateCG(deltaTime);
-		
 	}
 	
 	//TURN ON The Light
@@ -274,23 +266,24 @@ bool AreAllModifiersUp(GLFWwindow* window)
 	if ( IsAltDown(window) )	{ return false; }
 	// Yup, they are all UP
 	cMeshObject* player = findObjectByFriendlyName("player");
+	if (!game_is_over) {
+		//player->bIsUpdatedByPhysics = true;
+		if (glfwGetKey(window, GLFW_KEY_DOWN)) {
 
-	//player->bIsUpdatedByPhysics = true;
-	if (glfwGetKey(window, GLFW_KEY_DOWN)) { 
-		
-		player->adjMeshOrientationEulerAngles(-0.01f, 0.0f, 0.0f);
-	}
-	if (glfwGetKey(window, GLFW_KEY_UP)) {
+			//player->adjMeshOrientationEulerAngles(-0.01f, 0.0f, 0.0f);
+		}
+		if (glfwGetKey(window, GLFW_KEY_UP)) {
 
-		player->adjMeshOrientationEulerAngles(0.01f, 0.0f, 0.0f);
-	}
-	if (glfwGetKey(window, GLFW_KEY_LEFT)) {
+			//player->adjMeshOrientationEulerAngles(0.01f, 0.0f, 0.0f);
+		}
+		if (glfwGetKey(window, GLFW_KEY_LEFT)) {
 
-		player->adjMeshOrientationEulerAngles(0.0f, 1.11f * deltaTime, 0.0f);
-	}
-	if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
+			player->adjMeshOrientationEulerAngles(0.0f, 1.11f * deltaTime, 0.0f);
+		}
+		if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
 
-		player->adjMeshOrientationEulerAngles(0.0f, -1.11f * deltaTime, 0.0f);
+			player->adjMeshOrientationEulerAngles(0.0f, -1.11f * deltaTime, 0.0f);
+		}
 	}
 	//else{ player->accel = -player->velocity * 1.0f; }
 //	camera.Position = player->position + glm::vec3(0.0f, 0.0f, 0.5f);

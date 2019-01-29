@@ -29,14 +29,14 @@ void shoot(cMeshObject* WhoIsShooting, float VelMult, glm::vec3 RelPos = glm::ve
 
 
 	cMeshObject* pBeam = new cMeshObject();
-	pBeam->setDiffuseColour(glm::vec3(1.0f, 0.0f, 0.0f));
+	pBeam->setDiffuseColour(glm::vec3(0.0f, 1.0f, 0.0f));
 	pBeam->friendlyName = "beam";
 	pBeam->meshName = "beam.ply";
 	pBeam->bIsWireFrame = false;
 	pBeam->bDontLight = true;
 	pBeam->bIsVisible = true;
-	float scale = 0.5f;
-	pBeam->nonUniformScale = glm::vec3(scale, scale, scale * 2);
+	float scale = 1.3f;
+	pBeam->nonUniformScale = glm::vec3(scale, scale, scale * 0.6f );
 	pBeam->position = beam_WorldSpace;
 	//pBeam->initPos = beam_WorldSpace;
 	//pBeam->bIsProjectile = true;
@@ -72,7 +72,7 @@ void shoot(cMeshObject* WhoIsShooting, float VelMult, glm::vec3 RelPos = glm::ve
 
 	pBeam->bIsVisible = true;
 	//pBeam2->velocity = xWing->velocity * 15.0f;
-	pBeam->velocity = WhoIsShooting->velocity * 2.0f;
+	pBeam->velocity = WhoIsShooting->velocity * 3.0f;
 }
 
 
@@ -112,8 +112,8 @@ void shoot(cMeshObject* WhoIsShooting, cMeshObject* Target, float speed, glm::ve
 	pBeam->bIsWireFrame = false;
 	pBeam->bDontLight = true;
 	pBeam->bIsVisible = true;
-	float scale = 0.5f;
-	pBeam->nonUniformScale = glm::vec3(scale, scale, scale * 2);
+	float scale = 1.3f;
+	pBeam->nonUniformScale = glm::vec3(scale, scale, scale * 0.6f);
 	pBeam->position = beam_WorldSpace;
 	//pBeam->initPos = beam_WorldSpace;
 	//pBeam->bIsProjectile = true;

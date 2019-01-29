@@ -38,7 +38,7 @@ std::vector<cAABB::sAABB_Triangle> vec_cur_AABB_tris;
 void UpdateWindowTitle(void);
 double currentTime = 0;
 double deltaTime = 0;
-
+bool bDebugMode;
 void DoPhysicsUpdate( double deltaTime, 
 					  std::vector< cMeshObject* > &vec_pObjectsToDraw );
 void InitGame();
@@ -51,8 +51,8 @@ float g_lightBrightness = 400000.0f;
 
 unsigned int numberOfObjectsToDraw = 0;
 
-const unsigned int SCR_WIDTH = 1000;
-const unsigned int SCR_HEIGHT = 800;
+const unsigned int SCR_WIDTH = 1200;
+const unsigned int SCR_HEIGHT = 700;
 
 Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
 
@@ -101,6 +101,7 @@ void LoadTerrainAABB(void);
 
 int main(void)
 {
+	
 	GLFWwindow* window;
 
 	glfwSetErrorCallback(error_callback);
@@ -356,8 +357,8 @@ int main(void)
 
 	//::p_LuaScripts->LoadScriptFile("example.lua");
 
-
-
+	bDebugMode = false;
+	system("CLS");
 
 	//*****************************************************************
 	

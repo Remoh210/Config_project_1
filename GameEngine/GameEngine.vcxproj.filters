@@ -174,9 +174,6 @@
     <ClCompile Include="cAABB.cpp">
       <Filter>Phsyics</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerCollision.cpp">
-      <Filter>Phsyics</Filter>
-    </ClCompile>
     <ClCompile Include="cLuaBrain.cpp">
       <Filter>Scripting\LUA</Filter>
     </ClCompile>
@@ -248,6 +245,9 @@
     </ClCompile>
     <ClCompile Include="shoot.cpp">
       <Filter>Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLoop.cpp">
+      <Filter>SimpleGame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

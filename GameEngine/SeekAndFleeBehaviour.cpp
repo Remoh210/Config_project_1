@@ -1,6 +1,5 @@
 #include "SeekAndFleeBehaviour.h"
 #include "HelpFuctions.h"
-#include <iostream>
 
 
 SeekAndFleeBehaviour::SeekAndFleeBehaviour(cMeshObject* agent, cMeshObject* target, float maxSpeed, float maxForce, float seekDist, float angle, float fleeDist)
@@ -31,7 +30,7 @@ void SeekAndFleeBehaviour::update(float dt)
 	angle = angle * (180.0 / 3.14);
 
 	if (angle < mAngle && dist < mFleeDist) {
-		std::cout << angle << std::endl;
+		//std::cout << angle << std::endl;
 		//normalize it and scale by mMaxSpeed
 		ToPlayer = glm::normalize(ToPlayer) * mMaxSpeed;
 		ToPlayer *= -1;
@@ -42,7 +41,7 @@ void SeekAndFleeBehaviour::update(float dt)
 			steering = glm::normalize(steering) * mMaxForce;
 		}
 		//steering = glm::normalize(desired) * mMaxForce;
-		mAgent->accel = -steering * 2.0f;
+		mAgent->accel = -steering * 1.8f;
 
 		glm::mat4 rot = glm::inverse(glm::lookAt(mAgent->position, mAgent->position + mAgent->velocity, glm::vec3(0.0f, 1.0f, 0.0f)));
 		mAgent->m_meshQOrientation = glm::quat(rot);

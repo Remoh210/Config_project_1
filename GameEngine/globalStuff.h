@@ -33,7 +33,7 @@
 #include "cMoveToEaseIO.h"
 // ... and more
 extern GLuint program;
-
+extern bool bDebugMode;
 extern bool bMouseInWindow;
 extern cBasicTextureManager* g_pTheTextureManager;
 

@@ -191,7 +191,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="PhysicsStuff.cpp" />
-    <ClCompile Include="PlayerCollision.cpp" />
+    <ClCompile Include="GameLoop.cpp" />
     <ClCompile Include="PlyFileLoader.cpp" />
     <ClCompile Include="PursueAndEvadeBehaviour.cpp" />
     <ClCompile Include="SeekAndFleeBehaviour.cpp" />

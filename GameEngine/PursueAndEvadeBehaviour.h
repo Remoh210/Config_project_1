@@ -7,7 +7,7 @@
 
 class PursueAndEvadeBehaviour : public Behaviour {
 public:
-	PursueAndEvadeBehaviour(cMeshObject* agent, cMeshObject* target, float maxSpeed, float maxForce);
+	PursueAndEvadeBehaviour(cMeshObject* agent, cMeshObject* target, float maxSpeed, float maxForce, float evadeDist);
 	virtual ~PursueAndEvadeBehaviour(void);
 
 	virtual void update(float dt);
@@ -19,7 +19,7 @@ private:
 	float mMaxForce; //steering speed
 	float mAngle; //Angle when start to flee
 	float mSeekDist;
-	float mFleeDist;
+	float mEvadeDist;
 };
 
 #endif

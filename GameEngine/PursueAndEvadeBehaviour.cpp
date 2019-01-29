@@ -1,12 +1,12 @@
 #include "PursueAndEvadeBehaviour.h"
 #include "globalStuff.h"
-#include <iostream>
 cMeshObject* CheckProjDist(cMeshObject* agent, std::string projectileName, float evadeDist);
-PursueAndEvadeBehaviour::PursueAndEvadeBehaviour(cMeshObject* agent, cMeshObject* target, float maxSpeed, float maxForce)
+PursueAndEvadeBehaviour::PursueAndEvadeBehaviour(cMeshObject* agent, cMeshObject* target, float maxSpeed, float maxForce, float evadeDist)
 	: mAgent(agent)
 	, mTarget(target)
 	, mMaxSpeed(maxSpeed)
 	, mMaxForce(maxForce)
+	, mEvadeDist(evadeDist)
 {
 
 }
@@ -21,7 +21,7 @@ void PursueAndEvadeBehaviour::update(float dt)
 
 	if (mAgent == 0 || mTarget == 0) return;
 //	glm::vec3 ToTarget = mTarget->position - mAgent->position;
-	cMeshObject* bullet = CheckProjDist(mAgent, "beam", 50);
+	cMeshObject* bullet = CheckProjDist(mAgent, "beam", mEvadeDist);
 	//EVADE BULLETS
 	if(bullet)
 	{
@@ -93,21 +93,25 @@ cMeshObject* CheckProjDist(cMeshObject* agent, std::string projectileName, float
 {
 	for (int i = 0; i < vec_pObjectsToDraw.size(); i++)
 	{
+
 		if(vec_pObjectsToDraw[i]->friendlyName == projectileName)
 		{
-			glm::vec3 ToPlayer = agent->position - vec_pObjectsToDraw[i]->position;
-			glm::vec3 beemLook = vec_pObjectsToDraw[i]->velocity;
-			float dot = glm::dot(ToPlayer, beemLook);
-			float angle = glm::acos(dot / (glm::length(ToPlayer)*glm::length(beemLook)));
-			angle = angle * (180.0 / 3.14);
+			if (glm::distance(agent->position, vec_pObjectsToDraw[i]->position) < evadeDist) 
+			{
+				glm::vec3 ToPlayer = agent->position - vec_pObjectsToDraw[i]->position;
+				glm::vec3 beemLook = vec_pObjectsToDraw[i]->velocity;
+				float dot = glm::dot(ToPlayer, beemLook);
+				float angle = glm::acos(dot / (glm::length(ToPlayer)*glm::length(beemLook)));
+				angle = angle * (180.0 / 3.14);
 
-			if (angle < 45.0f)
-			{
- 				return vec_pObjectsToDraw[i];
-			}
-			else
-			{
-				continue;
+				if (angle < 45.0f)
+				{
+					return vec_pObjectsToDraw[i];
+				}
+				else
+				{
+					continue;
+				}
 			}
 		}
 	}

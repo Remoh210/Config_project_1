@@ -180,7 +180,7 @@
             ]
         },
         {
-            "Name": "puruseEnemy",
+            "Name": "pursueEnemy",
             "Mesh": "enemy.ply",
             "Visible": true,
             "Use_Physics": true,

@@ -52,7 +52,7 @@ float g_lightBrightness = 400000.0f;
 unsigned int numberOfObjectsToDraw = 0;
 
 const unsigned int SCR_WIDTH = 1200;
-const unsigned int SCR_HEIGHT = 700;
+const unsigned int SCR_HEIGHT = 900;
 
 Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
 

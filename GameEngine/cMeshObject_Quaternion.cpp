@@ -31,7 +31,7 @@ void cMeshObject::adjMeshOrientationEulerAngles(glm::vec3 adjAngleEuler, bool bI
 	glm::quat rotationAdjust(adjAngleEuler);
 
 	// Step 2: Multiply this quaternion by the existing quaternion. This "adds" the angle we want.
-	this->m_meshQOrientation *= rotationAdjust;
+	//this->m_meshQOrientation *= rotationAdjust;
 	this->m_meshQOrientation = this->m_meshQOrientation * rotationAdjust;
 
 	return;

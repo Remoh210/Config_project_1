@@ -15,6 +15,8 @@
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 cMeshObject* pDebugSphere;
 cMeshObject* pEarth;
+cMeshObject* pMars;
+cMeshObject* pPlayer;
 std::vector <cMeshObject*> vec_Enemies;
 int stage;
 int enemyCount;
@@ -28,8 +30,9 @@ char answer;
 void InitGame() {
 	behavManager = new BehaviourManager();
 
-	cMeshObject* pPlayer = findObjectByFriendlyName("player");
+	pPlayer = findObjectByFriendlyName("player");
 	pEarth = findObjectByFriendlyName("earth");
+	pMars = findObjectByFriendlyName("mars");
 	cMeshObject* pApproachEnemy = findObjectByFriendlyName("enemy");
 	vec_Enemies.push_back(pApproachEnemy);
 	cMeshObject* pWanderEnemy = findObjectByFriendlyName("wanderEnemy");
@@ -47,13 +50,13 @@ void InitGame() {
 	pSeekEnemy->initPos = pSeekEnemy->position;
 
 	//Initialize Behaviours
-	ApproachBehaviour* approach = new ApproachBehaviour(pApproachEnemy, pPlayer, 25.2f, 14.2f);
+	ApproachBehaviour* approach = new ApproachBehaviour(pApproachEnemy, pPlayer, 25.2f, 14.2f, 50.0f, 40.0f, 1.0f);//(Agent, Target, maxSpeed, maxForce, radius, shootRadius, shotInterval)
 	behavManager->SetBehaviour(pApproachEnemy, approach);
-	WanderBehaviour* wander = new WanderBehaviour(pWanderEnemy, 22.2f, 10.2f, 0.0f, glm::vec3(0.0f), 30.0f, -30.0f);
+	WanderBehaviour* wander = new WanderBehaviour(pWanderEnemy, 22.2f, 10.2f, 0.0f, glm::vec3(0.0f), 30.0f, -30.0f); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
     behavManager->SetBehaviour(pWanderEnemy, wander);																	
-	PursueAndEvadeBehaviour* PursueAndEvade = new PursueAndEvadeBehaviour(pPursueEnemy, pPlayer, 28.2f, 15.2f, 40.0f);//(Agent, Target, maxSpeed, maxForce, evadeDist)
+	PursueAndEvadeBehaviour* PursueAndEvade = new PursueAndEvadeBehaviour(pPursueEnemy, pPlayer, 32.0f, 15.2f, 40.0f);//(Agent, Target, maxSpeed, maxForce, evadeDist)
 	behavManager->SetBehaviour(pPursueEnemy, PursueAndEvade);
-	SeekAndFleeBehaviour* seekAndFlee = new SeekAndFleeBehaviour(pSeekEnemy, pPlayer, 20.2f, 10.0f, 5.0f, 45.0f, 45.0f);
+	SeekAndFleeBehaviour* seekAndFlee = new SeekAndFleeBehaviour(pSeekEnemy, pPlayer, 20.2f, 10.0f, 5.0f, 45.0f, 45.0f); //(Agent, Target, maxSpeed, maxForce, seekDist, Angle, fleeDist)
 	behavManager->SetBehaviour(pSeekEnemy, seekAndFlee);
 	//FleeBehaviour* flee = new FleeBehaviour(pEnemy, pPlayer, 7.2f, 4.2f);
 	//behavManager->SetBehaviour(pEnemy, flee);
@@ -62,6 +65,7 @@ void InitGame() {
 	respawnEnemies = false;
 	stage = 0;
 	game_is_over = false;
+
 
 	
 	//All Enemies exept 1 are dead at the start
@@ -73,13 +77,33 @@ void InitGame() {
 		vec_Enemies[i]->bIsVisible = false;
 		vec_Enemies[i]->time_dead = 0.0f;
 	}
+
+
+
+
+	std::cout << vec_Enemies[enemyCount]->friendlyName << " has appeared!" << std::endl;;
+	std::cout << "He will follow you and keep distance, but if you decide to approach him, he will shoot!";
+	std::cout << std::endl;
+	std::cout << std::endl;
+
+
+	camera.b_controlledByScript = true;
+	camera.SetViewMatrix(glm::lookAt(camera.Position, pEarth->position, glm::vec3(0.0f, 1.0f, 0.0f)));
+
+
+	//hide debug models
+	for (int i = 0; i < vec_pObjectsToDraw.size(); i++)
+	{
+		if (vec_pObjectsToDraw[i]->bIsDebug) {
+			vec_pObjectsToDraw[i]->bIsVisible = false;
+		}
+
+	}
 	
 }
 
 void GameLoop(double deltaTime, GLuint shaderProgramID)
 {
-	cMeshObject* pPlayer = findObjectByFriendlyName("player");
-	cMeshObject* pEnemy = findObjectByFriendlyName("enemy");
 	behavManager->update(deltaTime);
 
 	//draw Debug Info
@@ -119,7 +143,16 @@ void GameLoop(double deltaTime, GLuint shaderProgramID)
 	
 	if (game_is_over)
 	{
-		pPlayer->adjMeshOrientationEulerAngles(0.5f * deltaTime, 0.0f, 0.0f);
+		pPlayer->adjMeshOrientationEulerAngles(0.3f * deltaTime, 0.0f, 0.0f);
+		glm::vec4 vecForwardDirection_ModelSpace = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+		
+		glm::quat qPlayer29Rotation = pPlayer->getQOrientation();
+		glm::mat4 matQPlayer29rotation = glm::mat4(qPlayer29Rotation);
+		glm::vec4 vecForwardDirection_WorldSpace = matQPlayer29rotation * vecForwardDirection_ModelSpace;
+		vecForwardDirection_WorldSpace = glm::normalize(vecForwardDirection_WorldSpace);
+		float forwardSpeed = 20.5f;
+		float forwardSpeedThisFrame = forwardSpeed * deltaTime;
+		pPlayer->velocity = vecForwardDirection_WorldSpace * forwardSpeed;
 	}
 
 
@@ -140,7 +173,13 @@ void GameLoop(double deltaTime, GLuint shaderProgramID)
 			std::cout << vec_Enemies[enemyCount]->friendlyName << " has appeared!" << std::endl;;
 			if (vec_Enemies[enemyCount]->friendlyName == "wanderEnemy") 
 			{
-				std::cout << "He is not aggresive, he only wants to protect area!";
+				std::cout << "He is not aggresive, he only protects the area!";
+				std::cout << std::endl;
+				std::cout << std::endl;
+			}
+			if (vec_Enemies[enemyCount]->friendlyName == "wanderWaitEnemy")
+			{
+				std::cout << "He is not aggresive, he only protects the area, stopping for 3 seconds!";
 				std::cout << std::endl;
 				std::cout << std::endl;
 			}
@@ -260,6 +299,7 @@ void GameLoop(double deltaTime, GLuint shaderProgramID)
 	//}
 	//Animate Earth
 	pEarth->adjMeshOrientationEulerAngles(0.0f, -0.1f * deltaTime, 0.0f, false);
+	pMars->adjMeshOrientationEulerAngles(0.0f, -0.1f * deltaTime, 0.0f, false);
 	return;
 }
 

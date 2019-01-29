@@ -71,8 +71,21 @@ void shoot(cMeshObject* WhoIsShooting, float VelMult, glm::vec3 RelPos = glm::ve
 
 
 	pBeam->bIsVisible = true;
+
+
+	glm::vec4 vecForwardDirection_ModelSpace = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+
+	glm::quat qPlayer29Rotation = WhoIsShooting->getQOrientation();
+	glm::mat4 matQPlayer29rotation = glm::mat4(qPlayer29Rotation);
+	glm::vec4 vecForwardDirection_WorldSpace = matQPlayer29rotation * vecForwardDirection_ModelSpace;
+	vecForwardDirection_WorldSpace = glm::normalize(vecForwardDirection_WorldSpace);
+	float forwardSpeed = 40.5f;
+	float forwardSpeedThisFrame = forwardSpeed * deltaTime;
+	pBeam->velocity = vecForwardDirection_WorldSpace * forwardSpeed;
+
+
 	//pBeam2->velocity = xWing->velocity * 15.0f;
-	pBeam->velocity = WhoIsShooting->velocity * 3.0f;
+	//pBeam->velocity = WhoIsShooting->velocity * 3.0f;
 }
 
 

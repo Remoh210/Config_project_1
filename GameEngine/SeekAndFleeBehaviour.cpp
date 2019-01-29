@@ -23,7 +23,25 @@ void SeekAndFleeBehaviour::update(float dt)
 	if (mAgent == 0 || mTarget == 0) return;
 
 	glm::vec3 ToPlayer = mAgent->position - mTarget->position;
-	glm::vec3 playerLook = mTarget->velocity;
+
+
+
+	glm::vec4 vecForwardDirection_ModelSpace = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+
+	glm::quat qPlayer29Rotation = mTarget->getQOrientation();
+	glm::mat4 matQPlayer29rotation = glm::mat4(qPlayer29Rotation);
+	glm::vec4 vecForwardDirection_WorldSpace = matQPlayer29rotation * vecForwardDirection_ModelSpace;
+	vecForwardDirection_WorldSpace = glm::normalize(vecForwardDirection_WorldSpace);
+
+
+
+
+
+
+
+
+
+	glm::vec3 playerLook = vecForwardDirection_WorldSpace;
 	float dist = glm::distance(mAgent->position, mTarget->position);
 	float dot = glm::dot(ToPlayer, playerLook);
 	float angle = glm::acos(dot / (glm::length(ToPlayer)*glm::length(playerLook)));

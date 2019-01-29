@@ -51,6 +51,48 @@
             ]
         },
         {
+            "Name": "mars",
+            "Mesh": "mars.ply",
+            "Visible": true,
+            "Use_Physics": false,
+            "Dont_light": false,
+            "Wireframe": false,
+            "Position": [
+                80.0,
+              -20.0,
+              -50.0
+            ],
+            "DiffuseRGB_Alpha": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "SpecularRGB_Alpha": [
+                1.0,
+                1.0,
+                1.0,
+                100.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Scale": [
+                3.0,
+                3.0,
+                3.0
+            ],
+            "Textures": [
+                {
+                    "Name": "marsTex.bmp",
+                    "Strength": 1.0
+                }
+            ]
+        },
+        {
             "Name": "player",
             "Mesh": "x-wing.ply",
             "Visible": true,

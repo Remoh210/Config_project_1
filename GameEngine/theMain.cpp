@@ -123,7 +123,8 @@ int main(void)
 	//CAMERA SPEED
 	//camera.MovementSpeed = 1000.0f;
 
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetCursorPosCallback(window, mouse_callback);
@@ -236,7 +237,7 @@ int main(void)
 	//CreateModels("Models.txt", ::g_pTheVAOMeshManager, program);
 	LoadModelsIntoScene(::vec_pObjectsToDraw);
 
-	InitGame();
+	
 	//vec_sorted_drawObj = vec_pObjectsToDraw;
 
 			// Draw all the objects in the "scene"
@@ -359,7 +360,7 @@ int main(void)
 
 	bDebugMode = false;
 	system("CLS");
-
+	InitGame();
 	//*****************************************************************
 	
 	// Draw the "scene" (run the program)

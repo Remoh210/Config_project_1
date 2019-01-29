@@ -3,15 +3,19 @@
 
 #include <iostream>
 bool first = true;
-ApproachBehaviour::ApproachBehaviour(cMeshObject* agent, cMeshObject* target, float maxSpeed, float maxForce)
+ApproachBehaviour::ApproachBehaviour(cMeshObject* agent, cMeshObject* target, float maxSpeed, float maxForce, float radius, float shootRadius, float shotInterval)
 	: mAgent(agent)
 	, mTarget(target)
 	, mMaxSpeed(maxSpeed)
 	, mMaxForce(maxForce)
+	, mRadius(radius)
+	, mShootRadius(shootRadius)
+	, mTimeToWait(shotInterval)
+
 {
-	mRadius = 50.0f;
+	//mRadius = 50.0f;
 	mTimeElapsedSinceLastShot = 0.0f;
-	mTimeToWait = 1.0f;
+	//mTimeToWait = 1.0f;
 	mStart = true;
 }
 
@@ -28,8 +32,8 @@ void ApproachBehaviour::update(float dt)
 	{
 
 		mAgent->accel = glm::vec3(0.0f);
-		//mAgent->velocity = mAgent->velocity * 0.30f;
-		if (distance < mRadius / 1.2) {
+		mAgent->velocity = mAgent->velocity * 0.99f;
+		if (distance < mShootRadius) {
 			if (mStart) {
 				mTimeElapsedSinceLastShot = 0.0f;
 				mStart = false;

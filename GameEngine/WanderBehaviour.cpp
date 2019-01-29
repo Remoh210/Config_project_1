@@ -32,7 +32,7 @@ void WanderBehaviour::update(float dt)
 	
 
 
-	if (glm::distance(mAgent->position, mCurTarget) > 5.0f) {
+	if (glm::distance(mAgent->position, mCurTarget) > 1.0f) {
 
 		glm::vec3 desired = mCurTarget - mAgent->position;
 		//normalize it and scale by mMaxSpeed

@@ -15,7 +15,7 @@ extern sLight* pTheOneLight;	//  = NULL;
 extern cLightManager* LightManager;
 int lightIndex = 0;
 bool firstMouse = true;
-
+float forwardSpeed = 0.0f;
 void switchVis(cMeshObject* obj) {obj->bIsVisible = !obj->bIsVisible;}
 
 float lastX = SCR_WIDTH / 2.0f;
@@ -72,6 +72,11 @@ void key_callback( GLFWwindow* window,
 		//findObjectByFriendlyName("player");
 		cMeshObject* player = findObjectByFriendlyName("player");
 		shoot(player, 2.0f);
+	}
+
+	if (key == GLFW_KEY_UP && action == GLFW_RELEASE)
+	{
+		forwardSpeed = 0.0f;
 	}
 
 	//LOAD MODELS
@@ -261,6 +266,7 @@ bool IsAltDown(GLFWwindow* window)
 
 bool AreAllModifiersUp(GLFWwindow* window)
 {
+	
 	if ( IsShiftDown(window) )	{ return false;	}
 	if ( IsCtrlDown(window) )	{ return false;	} 
 	if ( IsAltDown(window) )	{ return false; }
@@ -273,13 +279,14 @@ bool AreAllModifiersUp(GLFWwindow* window)
 			//player->adjMeshOrientationEulerAngles(-0.01f, 0.0f, 0.0f);
 		}
 		if (glfwGetKey(window, GLFW_KEY_UP)) {
+			if (forwardSpeed < 30.0f) { forwardSpeed += 15.0f * deltaTime; }
 			glm::vec4 vecForwardDirection_ModelSpace = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
 
 			glm::quat qPlayer29Rotation = player->getQOrientation();
 			glm::mat4 matQPlayer29rotation = glm::mat4(qPlayer29Rotation);
 			glm::vec4 vecForwardDirection_WorldSpace = matQPlayer29rotation * vecForwardDirection_ModelSpace;
 			vecForwardDirection_WorldSpace = glm::normalize(vecForwardDirection_WorldSpace);
-			float forwardSpeed = 20.5f;
+			
 			float forwardSpeedThisFrame = forwardSpeed * deltaTime;
 			player->velocity = vecForwardDirection_WorldSpace * forwardSpeed;
 			//player->adjMeshOrientationEulerAngles(0.01f, 0.0f, 0.0f);
@@ -290,12 +297,12 @@ bool AreAllModifiersUp(GLFWwindow* window)
 		}
 		if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
 
-			player->adjMeshOrientationEulerAngles(0.0f, -1.11f * deltaTime, 0.0f);
+			player->adjMeshOrientationEulerAngles(0.0f, -0.9f * deltaTime, 0.0f);
 		}
 	}
 	//else{ player->accel = -player->velocity * 1.0f; }
 //	camera.Position = player->position + glm::vec3(0.0f, 0.0f, 0.5f);
-	player->accel = -player->velocity * 0.2f;
+	player->accel = -player->velocity * 1.5f;
 	return true;
 }
 
@@ -549,7 +556,8 @@ void ManageScene(GLFWwindow* window)
 
 	bMouseInWindow = true;
 	firstMouse = true;
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 	
 };

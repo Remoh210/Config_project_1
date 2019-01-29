@@ -6,7 +6,7 @@
 
 class ApproachBehaviour : public Behaviour {
 public:
-	ApproachBehaviour(cMeshObject* agent, cMeshObject* target, float maxSpeed, float maxForce);
+	ApproachBehaviour(cMeshObject* agent, cMeshObject* target, float maxSpeed, float maxForce, float radius, float shootRadius, float shotInterval);
 	virtual ~ApproachBehaviour(void);
 
 	virtual void update(float dt);
@@ -17,8 +17,9 @@ private:
 	float mMaxSpeed;
 	float mMaxForce; //steering speed
 	float mRadius;
+	float mShootRadius;
 	float mTimeElapsedSinceLastShot;
-	float mTimeToWait;
+	float mTimeToWait; //between shots
 	bool mStart;
 };
 

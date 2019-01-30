@@ -128,22 +128,6 @@ void GameLoop(double deltaTime, GLuint shaderProgramID)
 		}
 	}
 
-
-
-
-
-
-	//glm::vec4 vecForwardDirection_ModelSpace = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-
-	//glm::quat qPlayer29Rotation = pPlayer->getQOrientation();
-	//glm::mat4 matQPlayer29rotation = glm::mat4(qPlayer29Rotation);
-	//glm::vec4 vecForwardDirection_WorldSpace = matQPlayer29rotation * vecForwardDirection_ModelSpace;
-	//vecForwardDirection_WorldSpace = glm::normalize(vecForwardDirection_WorldSpace);
-	//float forwardSpeed = 20.5f;
-	//float forwardSpeedThisFrame = forwardSpeed * deltaTime;
-	//pPlayer->velocity = vecForwardDirection_WorldSpace * forwardSpeed;
-	//glm::mat4 rot = glm::inverse(glm::lookAt(mAgent->position, mAgent->position + mAgent->velocity, glm::vec3(0.0f, 1.0f, 0.0f)));
-	//pPlayer->m_meshQOrientation = glm::quat(glm::inverse(glm::lookAt(pPlayer->position, pPlayer->position - pPlayer->accel, glm::vec3(0.0f, 1.0f, 0.0f))));
 	
 	if (game_is_over)
 	{

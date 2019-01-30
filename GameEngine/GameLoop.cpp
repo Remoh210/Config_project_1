@@ -37,6 +37,8 @@ void InitGame() {
 	vec_Enemies.push_back(pApproachEnemy);
 	cMeshObject* pWanderEnemy = findObjectByFriendlyName("wanderEnemy");
 	vec_Enemies.push_back(pWanderEnemy);
+	cMeshObject* pWanderWaitEnemy = findObjectByFriendlyName("wanderWaitEnemy");
+	vec_Enemies.push_back(pWanderWaitEnemy);
 	cMeshObject* pPursueEnemy = findObjectByFriendlyName("pursueEnemy");
 	vec_Enemies.push_back(pPursueEnemy);
 	cMeshObject* pSeekEnemy = findObjectByFriendlyName("seekEnemy");
@@ -53,7 +55,9 @@ void InitGame() {
 	ApproachBehaviour* approach = new ApproachBehaviour(pApproachEnemy, pPlayer, 25.2f, 14.2f, 50.0f, 40.0f, 1.0f);//(Agent, Target, maxSpeed, maxForce, radius, shootRadius, shotInterval)
 	behavManager->SetBehaviour(pApproachEnemy, approach);
 	WanderBehaviour* wander = new WanderBehaviour(pWanderEnemy, 22.2f, 10.2f, 0.0f, glm::vec3(0.0f), 30.0f, -30.0f); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
-    behavManager->SetBehaviour(pWanderEnemy, wander);																	
+    behavManager->SetBehaviour(pWanderEnemy, wander);	
+	WanderBehaviour* wanderWait = new WanderBehaviour(pWanderWaitEnemy, 22.2f, 10.2f, 3.0f, glm::vec3(0.0f), 30.0f, -30.0f); //(Agent, Target, maxSpeed, WanderOrigin , UpLimit, DownLimit)
+	behavManager->SetBehaviour(pWanderWaitEnemy, wanderWait);
 	PursueAndEvadeBehaviour* PursueAndEvade = new PursueAndEvadeBehaviour(pPursueEnemy, pPlayer, 32.0f, 15.2f, 40.0f);//(Agent, Target, maxSpeed, maxForce, evadeDist)
 	behavManager->SetBehaviour(pPursueEnemy, PursueAndEvade);
 	SeekAndFleeBehaviour* seekAndFlee = new SeekAndFleeBehaviour(pSeekEnemy, pPlayer, 20.2f, 10.0f, 5.0f, 45.0f, 45.0f); //(Agent, Target, maxSpeed, maxForce, seekDist, Angle, fleeDist)
@@ -212,7 +216,7 @@ void GameLoop(double deltaTime, GLuint shaderProgramID)
 		//increase timer if enemy is "dead"
 		for (int i = 0; i < vec_Enemies.size(); i++)
 		{
-			if (!vec_Enemies[i]->bIsVisible)
+			if (!vec_Enemies[i]->bIsVisible  && vec_Enemies[i]->friendlyName != "wanderWaitEnemy")
 			{
 				vec_Enemies[i]->time_dead += (float)deltaTime;
 				if (vec_Enemies[i]->time_dead > 5.0f)
@@ -223,6 +227,7 @@ void GameLoop(double deltaTime, GLuint shaderProgramID)
 					vec_Enemies[i]->bIsVisible = true;
 
 					vec_Enemies[i]->time_dead = 0.0f;
+
 				}
 			}
 
@@ -299,7 +304,7 @@ void GameLoop(double deltaTime, GLuint shaderProgramID)
 	//}
 	//Animate Earth
 	pEarth->adjMeshOrientationEulerAngles(0.0f, -0.1f * deltaTime, 0.0f, false);
-	pMars->adjMeshOrientationEulerAngles(0.0f, -0.1f * deltaTime, 0.0f, false);
+	pMars->adjMeshOrientationEulerAngles(0.0f, 0.1f * deltaTime , 0.0f, false);
 	return;
 }
 

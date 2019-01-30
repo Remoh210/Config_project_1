@@ -4,6 +4,7 @@
 //    \___/| .__/\___|_||_\___|____| 
 //         |_|                       
 //
+
 #include "globalOpenGLStuff.h"
 #include "globalStuff.h"
 
@@ -24,6 +25,7 @@
 #include "cMeshObject.h"
 #include "cVAOMeshManager.h"
 #include <algorithm>
+#include "cTextRend.h";
 
 #include "DebugRenderer/cDebugRenderer.h"
 #include "cLightHelper.h"
@@ -32,6 +34,7 @@ GLuint program;
 cDebugRenderer* g_pDebugRendererACTUAL = NULL;
 iDebugRenderer* g_pDebugRenderer = NULL;
 cLuaBrain* p_LuaScripts = NULL;
+cTextRend* TextRend = NULL;
 //cCommandGroup sceneCommandGroup;
 int cou;
 std::vector<cAABB::sAABB_Triangle> vec_cur_AABB_tris;
@@ -44,6 +47,7 @@ void DoPhysicsUpdate( double deltaTime,
 void InitGame();
 
 std::vector< cMeshObject* > vec_pObjectsToDraw;
+
 
 // To the right, up 4.0 units, along the x axis
 glm::vec3 g_lightPos = glm::vec3( 4.0f, 4.0f, 0.0f );
@@ -359,10 +363,14 @@ int main(void)
 	//::p_LuaScripts->LoadScriptFile("example.lua");
 
 	bDebugMode = false;
+	cTextRend* TextRend = new cTextRend();
 	system("CLS");
 	InitGame();
+
+	//HWND hWnd = GetConsoleWindow();
+	//ShowWindow(hWnd, SW_SHOW);
 	//*****************************************************************
-	
+
 	// Draw the "scene" (run the program)
 	while (!glfwWindowShouldClose(window))
     {
@@ -414,7 +422,7 @@ int main(void)
 		// Do all this ONCE per frame
 		LightManager->CopyLightValuesToShader();
 			
-
+	
 
 
 
@@ -599,13 +607,10 @@ int main(void)
 
 		}//for ( unsigned int objIndex = 0; 
 
-		//float sx = 2.0f / width;
-		//float sy = 2.0f / height;
-		//GLfloat yoffset = 50.0f;
-		//GLfloat xoffset = 8 * sx;
 
-		//g_textRend.renderText("ololosadasdasdassdasdasdasd", -1 + xoffset, 1 - yoffset * sy, sx, sy);
-		//yoffset += 50.0f;
+
+		//TextRend->drawText(height, width, "The Console!");
+
 
 
 

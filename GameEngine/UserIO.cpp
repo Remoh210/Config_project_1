@@ -89,6 +89,7 @@ void key_callback( GLFWwindow* window,
 	if (glfwGetKey(window, GLFW_KEY_K))
 	{
 		//SwitchToSolid(vec_pObjectsToDraw);
+		//TextRend->drawText( SCR_WIDTH, SCR_HEIGHT, "HELL YEAH TEXT IS HERE", 2.0f, deltaTime);
 	}
 
 
@@ -293,11 +294,11 @@ bool AreAllModifiersUp(GLFWwindow* window)
 		}
 		if (glfwGetKey(window, GLFW_KEY_LEFT)) {
 
-			player->adjMeshOrientationEulerAngles(0.0f, 1.11f * deltaTime, 0.0f);
+			player->adjMeshOrientationEulerAngles(0.0f, 1.5f * deltaTime, 0.0f);
 		}
 		if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
 
-			player->adjMeshOrientationEulerAngles(0.0f, -0.9f * deltaTime, 0.0f);
+			player->adjMeshOrientationEulerAngles(0.0f, -1.5f * deltaTime, 0.0f);
 		}
 	}
 	//else{ player->accel = -player->velocity * 1.0f; }

@@ -44,13 +44,9 @@ public:
 	void setState(eMenu menu);
 	void setLang(eLanguage lang);
 
-	//void drawText(unsigned int width, unsigned int height, const char *text, float drawTime, float dt); //TODO: RENDER TEXT FOR t TIME
 
 private:
 
-	//bool init();
-	//GLboolean init_gl();
-	//GLboolean initfreetype();
 
 
 	float mTimeWaitedSoFar;

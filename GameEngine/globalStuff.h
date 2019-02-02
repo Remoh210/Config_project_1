@@ -59,7 +59,7 @@ extern std::vector< cMeshObject* > vec_pObjectsToDraw;
 extern cSceneManager* g_pSceneManager;
 extern cLightManager* LightManager;
 extern BehaviourManager* behavManager;
-extern cTextRend* TextRend;
+extern cTextRend TextRend;
 
 // 
 // This is a global pointer to a mesh object. 

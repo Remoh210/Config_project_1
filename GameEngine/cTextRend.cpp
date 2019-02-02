@@ -1,11 +1,33 @@
 #include "cTextRend.h"
+#include "cTextRend.h"
+
+#include <rapidjson/document.h>
+#include <rapidjson/filereadstream.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/encodedstream.h>
+#include <rapidjson/encodings.h>
+#include <stddef.h>
+#include <codecvt>
 
 
+std::wstring utf8_to_wstring(const std::string& str)
+{
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
+	return myconv.from_bytes(str);
+}
 
+// convert wstring to UTF-8 string
+std::string wstring_to_utf8(const std::wstring& str)
+{
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
+	return myconv.to_bytes(str);
+}
 
 
 cTextRend::cTextRend()
 {
+	this->mState = MAIN;
+	this->mLang = ENGLISH;
 
 	// Vertex shader text
 	mvs_text =
@@ -28,10 +50,166 @@ cTextRend::cTextRend()
 		"}";
 
 
-	init();
+	//init();
 	mStart = true;
 	mTimeWaitedSoFar = 0.0f;
 }
+
+void cTextRend::RenderMenu(std::string filename, int &width, int &height)
+{
+	std::string fileToLoadFullPath = "localization/" + filename;
+
+	rapidjson::Document doc;
+	FILE* fp = fopen(fileToLoadFullPath.c_str(), "rb"); // non-Windows use "r"
+	char readBuffer[65536];
+	rapidjson::FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+	rapidjson::EncodedInputStream<rapidjson::UTF8<>, rapidjson::FileReadStream> eis(is);
+	doc.ParseStream<0, rapidjson::UTF8<> >(eis);
+	fclose(fp);
+	rapidjson::Value Menu(rapidjson::kObjectType);
+	
+
+
+	switch (this->mLang)
+	{
+	case ENGLISH:
+	{
+		Menu = doc["English"];
+		break;
+	}
+	case JAPANESE:
+	{
+		Menu = doc["Japanese"];
+		break;
+	}
+	case UKRAINAN:
+	{
+		Menu = doc["Ukrainian"];
+		break;
+	}
+	case SPANISH:
+	{
+		Menu = doc["Spanish"];
+		break;
+	}
+	case POLSKA:
+	{
+		Menu = doc["Polish"];
+		break;
+	}
+	default:
+		break;
+	}
+
+
+	
+	switch (this->mState)
+	{
+	case MAIN:
+	{
+		//const rapidjson::Value& Main = Menu["Main"];
+		GLfloat yoffset = 50.0f;
+		for(int i = 0; i < Menu["Main"].Size(); i++)
+		{
+			std::string temp = Menu["Main"][i].GetString();
+			yoffset += 50.0f;
+			drawText(width, height, utf8_to_wstring(temp).c_str(), yoffset);
+		}
+		break;
+	}
+	case SETTINGS:
+	{
+		GLfloat yoffset = 50.0f;
+		for (int i = 0; i < Menu["Settings"].Size(); i++)
+		{
+			std::string temp = Menu["Settings"][i].GetString();
+			yoffset += 50.0f;
+			drawText(width, height, utf8_to_wstring(temp).c_str(), yoffset);
+		}
+		break;
+
+	}
+	case LANGUAGE:
+	{
+		GLfloat yoffset = 50.0f;
+		for (int i = 0; i < Menu["language"].Size(); i++)
+		{
+			std::string temp = Menu["language"][i].GetString();
+			yoffset += 50.0f;
+			drawText(width, height, utf8_to_wstring(temp).c_str(), yoffset);
+		}
+		break;
+	}
+	case ABOUT:
+	{
+		GLfloat yoffset = 50.0f;
+		for (int i = 0; i < Menu["About"].Size(); i++)
+		{
+			std::string temp = Menu["About"][i].GetString();
+			yoffset += 50.0f;
+			drawText(width, height, utf8_to_wstring(temp).c_str(), yoffset);
+		}
+		break;
+	}
+	case WIND_SIZE:
+	{
+		GLfloat yoffset = 50.0f;
+		for (int i = 0; i < Menu["Window"].Size(); i++)
+		{
+			std::string temp = Menu["Window"][i].GetString();
+			yoffset += 50.0f;
+			drawText(width, height, utf8_to_wstring(temp).c_str(), yoffset);
+		}
+		break;
+	}
+	case CONTROLS:
+	{
+		GLfloat yoffset = 50.0f;
+		for (int i = 0; i < Menu["Controls"].Size(); i++)
+		{
+			std::string temp = Menu["Controls"][i].GetString();
+			yoffset += 50.0f;
+			drawText(width, height, utf8_to_wstring(temp).c_str(), yoffset);
+		}
+		break;
+	}
+	case ENEMY:
+	{
+		GLfloat yoffset = 50.0f;
+		for (int i = 0; i < Menu["Enemy"].Size(); i++)
+		{
+			std::string temp = Menu["Enemy"][i].GetString();
+			yoffset += 50.0f;
+			drawText(width, height, utf8_to_wstring(temp).c_str(), yoffset);
+		}
+		break;
+	}
+
+	default:
+		break;
+	}
+
+
+}
+
+
+eMenu cTextRend::getState()
+{
+	return this->mState;
+}
+
+void cTextRend::setState(eMenu menu) 
+{
+	this->mState = menu;
+}
+
+void cTextRend::setLang(eLanguage lang)
+{
+	this->mLang = lang;
+}
+
+
+
 
 GLboolean cTextRend::initfreetype() {
 
@@ -41,7 +219,7 @@ GLboolean cTextRend::initfreetype() {
 		return GL_FALSE;
 	}
 
-	if (FT_New_Face(mft, "assets/fonts/ARIALUNI.TTF", 0, &mface))
+	if (FT_New_Face(mft, "assets/fonts/unifont-11.0.03.ttf", 0, &mface))
 	{
 		fprintf(stderr, "unable to open font\n");
 		return GL_FALSE;
@@ -56,6 +234,8 @@ GLboolean cTextRend::initfreetype() {
 		fprintf(stderr, "unable to load character\n");
 		return GL_FALSE;
 	}
+
+
 
 
 	return GL_TRUE;
@@ -111,7 +291,7 @@ bool cTextRend::init()
 	return true;
 }
 
-void cTextRend::drawText(unsigned int width, unsigned int height, const char *text)
+void cTextRend::drawText(unsigned int width, unsigned int height, const wchar_t *text, GLfloat yoffset)
 {
 
 
@@ -128,9 +308,10 @@ void cTextRend::drawText(unsigned int width, unsigned int height, const char *te
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glDisable(GL_CULL_FACE);
+
 	float sx = 2.0f / width;
 	float sy = 2.0f / height;
-	GLfloat yoffset = 50.0f;
+	//GLfloat yoffset = y;
 	GLfloat xoffset = 8 * sx;
 
 	renderText(text, -1 + xoffset, 1 - yoffset * sy, sx, sy);
@@ -182,9 +363,9 @@ void cTextRend::drawText(unsigned int width, unsigned int height, const char *te
 //	
 //}
 
-void cTextRend::renderText(const char *text, float x, float y, float sx, float sy) {
+void cTextRend::renderText(const wchar_t *text, float x, float y, float sx, float sy) {
 
-	const char *p;
+	const wchar_t *p;
 	FT_GlyphSlot g = mface->glyph;
 
 	GLuint tex;

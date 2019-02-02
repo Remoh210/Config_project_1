@@ -7,47 +7,76 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+
+enum eLanguage
+{
+	ENGLISH,
+	JAPANESE,
+	UKRAINAN,
+	SPANISH,
+	POLSKA,
+};
+
+enum eMenu
+{
+	MAIN,
+	CONTROLS,
+	SETTINGS,
+	LANGUAGE,
+	WIND_SIZE,
+	ENEMY,
+	ABOUT,
+	CLOSE
+};
+
 class cTextRend {
 
 public:
 	cTextRend();
-	
-	void renderText(const char *text, float x, float y, float sx, float sy);
-	void drawText(unsigned int width, unsigned int height, const char *text);
-	void drawText(unsigned int width, unsigned int height, const char *text, float drawTime, float dt);
+	bool init();
+	GLboolean init_gl();
+	GLboolean initfreetype();
+	void RenderMenu(std::string filename, int &width, int &height);
+	void renderText(const wchar_t *text, float x, float y, float sx, float sy);
+	void drawText(unsigned int width, unsigned int height, const wchar_t *text, GLfloat yoffset);
+
+	eMenu getState();
+	void setState(eMenu menu);
+	void setLang(eLanguage lang);
+
+	//void drawText(unsigned int width, unsigned int height, const char *text, float drawTime, float dt); //TODO: RENDER TEXT FOR t TIME
 
 private:
 
-	bool init();
-	GLboolean init_gl();
+	//bool init();
+	//GLboolean init_gl();
+	//GLboolean initfreetype();
 
 
 	float mTimeWaitedSoFar;
 	bool mStart;
-	// Init FreeType stuff
-	GLboolean initfreetype();
+
+	float mWidth;
+	float mHeight;
+
+	//Localization related
+	eMenu mState;
+	eLanguage mLang;
 
 
+	GLuint mvertex_shader;                           
+	GLuint mfragment_shader;                         
+	GLuint mprogramm;                                
+	GLuint mvao;                                     
+	GLuint mdp_vbo;                                  
+	GLint attribute_coord;                           
+	GLint uniform_tex;                               
+	GLint uniform_color;                             
+	const char* mvs_text;                            
+	const char* mfs_text;                            
+	FT_Library mft;                                  
+	FT_Face mface;                                      
 
-	// Render the FreeType text
-	
-
-	GLuint mvertex_shader;                              // Vertex Shader name
-	GLuint mfragment_shader;                            // Fragment Shader name
-	GLuint mprogramm;                                   // The Shader Program    
-	GLuint mvao;                                        // Vertex array object    
-	GLuint mdp_vbo;                                     // Vertex buffer object
-	GLint attribute_coord;                              // Attribute coordinate
-	GLint uniform_tex;                                  // Uniform texture
-	GLint uniform_color;                                // Unifor color
-	const char* mvs_text;                               // Vertex shader text
-	const char* mfs_text;                               // Fragment shader text
-	FT_Library mft;                                     // The FreeType font
-	FT_Face mface;                                      // The FreeType face
-	std::vector<std::wstring> m_vecStringsToDraw;       // The strings to be drawn  
-														// Current state of the localization
-
-	// Point struct to draw the box on screen
 	struct point
 	{
 		GLfloat x;

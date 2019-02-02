@@ -80,9 +80,11 @@ void key_callback( GLFWwindow* window,
 	}
 
 	//LOAD MODELS
-	if (key == GLFW_KEY_H && action == GLFW_PRESS)
+	if (key == GLFW_KEY_BACKSPACE && action == GLFW_PRESS)
 	{
-		//SwitchToWireFrame(vec_pObjectsToDraw);
+		if (TextRend.getState() != CLOSE && TextRend.getState() != MAIN) {
+			TextRend.setState(MAIN);
+		}
 	}
 	
 
@@ -93,77 +95,171 @@ void key_callback( GLFWwindow* window,
 	}
 
 
-	if (glfwGetKey(window, GLFW_KEY_ENTER))
+	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS)
 	{
+		if (TextRend.getState() == CLOSE)
+		{
+			TextRend.setState(MAIN);
+		}
+		else
+		{
+			TextRend.setState(CLOSE);
+		}
 		
-		//::g_pSceneManager->saveScene("level1.json");
-		//::g_pSceneManager->loadScene("output.json");
-		//CreateModels("Models.txt", g_pTheVAOMeshManager, program);
-
 	}
-
-	if (glfwGetKey(window, GLFW_KEY_BACKSPACE))
-	{
-
-		//::g_pSceneManager->saveScene("output.json");
-		//::g_pSceneManager->loadScene("scene1.json");
-		//CreateModels("Models.txt", g_pTheVAOMeshManager, program);
-
-	}
-
-
-
-
-
-	if (glfwGetKey(window, GLFW_KEY_L))
-	{
-
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_R))
-	{
-
-	}
-	if (glfwGetKey(window, GLFW_KEY_T))
-	{
-
-	}
-
-	//VISABILITY
-	if (glfwGetKey(window, GLFW_KEY_SEMICOLON ))
-	{
-		//switchVis(vec_pObjectsToDraw.at(index));
-	}
-
-
-
-	//Chose the model
-	if (key == GLFW_KEY_M && action == GLFW_PRESS)
-	{
-		if (index < (vec_pObjectsToDraw.size() - 1)) {
-			
-			index = index + 1;
-		}
-		else { index = 0; }
-		std::cout << "Model " << vec_pObjectsToDraw.at(index)->meshName << " is Chosen" << std::endl;
-	}
-
-
-	//Chose the light
-	if (key == GLFW_KEY_N && action == GLFW_PRESS)
-	{
-		if (lightIndex < (LightManager->vecLights.size() - 1)) {
-
-			lightIndex = lightIndex + 1;
-		}
-		else { lightIndex = 0; }
-		std::cout << "Light " << LightManager->vecLights.at(lightIndex)->lightName << " is Chosen" << std::endl;
-	}
-
 
 
 
 	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+	{
+
+		switch (TextRend.getState())
+		{
+		case MAIN:
+		{
+			TextRend.setState(SETTINGS);
+			break;
+		}
+		case SETTINGS:
+		{
+			TextRend.setState(LANGUAGE);
+			break;
+		}
+		case LANGUAGE:
+		{
+			TextRend.setLang(ENGLISH);
+			break;
+		}
+		default:
+			break;
+		}
+	}
+
+	if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+	{
+		switch (TextRend.getState())
+		{
+		case MAIN:
+		{
+			TextRend.setState(ABOUT);
+			break;
+		}
+		case SETTINGS:
+		{
+			TextRend.setState(WIND_SIZE);
+			break;
+		}
+		case LANGUAGE:
+		{
+			TextRend.setLang(JAPANESE);
+			break;
+		}
+		default:
+			break;
+		}
+	}
+	if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+	{
+		switch (TextRend.getState())
+		{
+		case MAIN:
+		{
+			TextRend.setState(CONTROLS);
+			break;
+		}
+		case SETTINGS:
+		{
+			break;
+		}
+		case LANGUAGE:
+		{
+			TextRend.setLang(UKRAINAN);
+			break;
+		}
+		default:
+			break;
+		}
+	}
+	if (key == GLFW_KEY_4 && action == GLFW_PRESS)
+	{
+		switch (TextRend.getState())
+		{
+		case MAIN:
+		{
+			TextRend.setState(ENEMY);
+			break;
+		}
+		case SETTINGS:
+		{
+			break;
+		}
+		case LANGUAGE:
+		{
+			TextRend.setLang(SPANISH);
+			break;
+		}
+		default:
+			break;
+		}
+	}
+	if (key == GLFW_KEY_5 && action == GLFW_PRESS)
+	{
+		switch (TextRend.getState())
+		{
+		case MAIN:
+		{
+			break;
+		}
+		case SETTINGS:
+		{
+			break;
+		}
+		case LANGUAGE:
+		{
+			TextRend.setLang(POLSKA);
+			break;
+		}
+		default:
+			break;
+		}
+	}
+
+	
+
+
+
+
+
+
+
+
+	//Chose the model
+	//if (key == GLFW_KEY_M && action == GLFW_PRESS)
+	//{
+	//	if (index < (vec_pObjectsToDraw.size() - 1)) {
+	//		
+	//		index = index + 1;
+	//	}
+	//	else { index = 0; }
+	//	std::cout << "Model " << vec_pObjectsToDraw.at(index)->meshName << " is Chosen" << std::endl;
+	//}
+
+
+	////Chose the light
+	//if (key == GLFW_KEY_N && action == GLFW_PRESS)
+	//{
+	//	if (lightIndex < (LightManager->vecLights.size() - 1)) {
+
+	//		lightIndex = lightIndex + 1;
+	//	}
+	//	else { lightIndex = 0; }
+	//	std::cout << "Light " << LightManager->vecLights.at(lightIndex)->lightName << " is Chosen" << std::endl;
+	//}
+
+
+
+	// SHOW DEBUG INFORMATION
+	if (key == GLFW_KEY_9 && action == GLFW_PRESS)
 	{
 		for (int i = 0; i < vec_pObjectsToDraw.size(); i++)
 		{
@@ -174,17 +270,17 @@ void key_callback( GLFWwindow* window,
 
 	}
 	
-	//TURN ON The Light
+	////TURN ON The Light
 
-	if (key == GLFW_KEY_9 && action == GLFW_PRESS)
-	{
-	//	LightManager->vecLights.at(lightIndex)->param2.x = 1.0f;
-	}
-	//TURN OFF The Light
-	if (key == GLFW_KEY_0 && action == GLFW_PRESS)
-	{
-	//	LightManager->vecLights.at(lightIndex)->param2.x = 0.0f;
-	}
+	//if (key == GLFW_KEY_9 && action == GLFW_PRESS)
+	//{
+	////	LightManager->vecLights.at(lightIndex)->param2.x = 1.0f;
+	//}
+	////TURN OFF The Light
+	//if (key == GLFW_KEY_0 && action == GLFW_PRESS)
+	//{
+	////	LightManager->vecLights.at(lightIndex)->param2.x = 0.0f;
+	//}
 
 
 
@@ -194,23 +290,23 @@ void key_callback( GLFWwindow* window,
 
 	//TURN ON AND OFF SPHERES THAT SHOW LIGHT ATTENUATION
 
-	if (glfwGetKey(window, GLFW_KEY_O))
-	{	
-		LightManager->vecLights.at(lightIndex)->AtenSphere = true;
-	}
-	if (glfwGetKey(window, GLFW_KEY_P))
-	{
-		LightManager->vecLights.at(lightIndex)->AtenSphere = false;
-	}
+	//if (glfwGetKey(window, GLFW_KEY_O))
+	//{	
+	//	LightManager->vecLights.at(lightIndex)->AtenSphere = true;
+	//}
+	//if (glfwGetKey(window, GLFW_KEY_P))
+	//{
+	//	LightManager->vecLights.at(lightIndex)->AtenSphere = false;
+	//}
 
 
 	
-	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
-	{
+	//if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+	//{
 
 
-		//LightManager->vecLights.at(lightIndex)->AtenSphere = false;
-	}
+	//	//LightManager->vecLights.at(lightIndex)->AtenSphere = false;
+	//}
 
 
 	return;

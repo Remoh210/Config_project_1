@@ -34,7 +34,7 @@ GLuint program;
 cDebugRenderer* g_pDebugRendererACTUAL = NULL;
 iDebugRenderer* g_pDebugRenderer = NULL;
 cLuaBrain* p_LuaScripts = NULL;
-cTextRend* TextRend = NULL;
+cTextRend TextRend;
 //cCommandGroup sceneCommandGroup;
 int cou;
 std::vector<cAABB::sAABB_Triangle> vec_cur_AABB_tris;
@@ -363,7 +363,10 @@ int main(void)
 	//::p_LuaScripts->LoadScriptFile("example.lua");
 
 	bDebugMode = false;
-	cTextRend* TextRend = new cTextRend();
+	//cTextRend* TextRend = new cTextRend();
+	//cTextRend TextRend;
+	TextRend.init_gl();
+	TextRend.initfreetype();
 	system("CLS");
 	InitGame();
 
@@ -609,7 +612,8 @@ int main(void)
 
 
 
-		//TextRend->drawText(height, width, "The Console!");
+		TextRend.RenderMenu("menu.json", width, height);
+		//TextRend.drawText(width, height, "Hello World", 50.0f);
 
 
 

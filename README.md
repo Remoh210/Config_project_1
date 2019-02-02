@@ -8,9 +8,9 @@ Green - seeking and fleeing if you face him
 
 Arrows - movement<br />
 Space - shoot<br />
-Enter - show/hide menu
-Backspace - return to main menu
-1,2,3,4,5 - navigate
+Enter - show/hide menu<br />
+Backspace - return to main menu<br />
+1,2,3,4,5 - navigate<br />
 
 9 - show/hide debug info, where green spheres - collider, red spheres - wander points<br />
 

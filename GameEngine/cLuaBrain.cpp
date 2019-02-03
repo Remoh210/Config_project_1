@@ -3,6 +3,7 @@
 #include "cMoveToCommand.h"
 #include "cMoveToEaseIO.h"
 #include "cFollowCurve.h"
+#include "cWait.h"
 #include "cOrientTo.h"
 #include "cTriggerCommand.h"
 #include "Camera.h"
@@ -20,7 +21,7 @@ cLuaBrain::cLuaBrain()
 
 	this->m_pLuaState = luaL_newstate();
 
-	luaL_openlibs(this->m_pLuaState);					
+	luaL_openlibs(this->m_pLuaState);
 
 	//All in One command
 	lua_pushcfunction(this->m_pLuaState, cLuaBrain::l_newSubCG);
@@ -43,7 +44,7 @@ cLuaBrain::cLuaBrain()
 
 
 
-	
+
 
 	lua_pushcfunction(this->m_pLuaState, cLuaBrain::l_GetObjectState);
 	lua_setglobal(this->m_pLuaState, "getObjectState");
@@ -312,7 +313,7 @@ int cLuaBrain::l_newSubCG(lua_State *L)
 	std::string subGroupName = lua_tostring(L, 2);	// The name of the subgroup
 
 
-	
+
 	cCommandGroup* NewSubGroup = new cCommandGroup(subGroupName);
 	cCommandGroup* commandGroup = cLuaBrain::m_findCGbyName(groupName, luaCommandGroup);
 	commandGroup->vecCommandGroups.push_back(NewSubGroup);
@@ -327,25 +328,27 @@ int cLuaBrain::l_newSubCG(lua_State *L)
 
 
 //Load Script File (from assets/script)
-void cLuaBrain::LoadScriptFile(std::string scriptName) 
-{ 
+bool cLuaBrain::LoadScriptFile(std::string scriptName)
+{
 	std::string scriptNameWithPath;
 	scriptNameWithPath = "assets/scripts/" + scriptName;
-	
+
 	std::ifstream f(scriptNameWithPath);
 	std::string strScript;
-	if (f) 
+	if (f)
 	{
 		std::getline(f, strScript, '\0');
 		std::cout << "Script " << scriptNameWithPath << " is loaded" << std::endl;
 		std::cout << strScript << std::endl;
 		LoadScript(scriptName, strScript);
+		return true;
 	}
-	else 
-	{ 
+	else
+	{
+		return false;
 		std::cout << "Script " << scriptNameWithPath << " not found" << std::endl;
 	}
-	
+
 
 
 }
@@ -355,30 +358,30 @@ void cLuaBrain::UpdateCG(float deltaTime) { luaCommandGroup.Update(deltaTime); }
 
 int cLuaBrain::l_newCom(lua_State *L)
 {
-	std::string groupName = lua_tostring(L, 1);	
-	std::string commandName = lua_tostring(L, 2); 
+	std::string groupName = lua_tostring(L, 1);
+	std::string commandName = lua_tostring(L, 2);
 	std::string ObjFriendlyName = lua_tostring(L, 3);
-	float x = lua_tonumber(L, 4);				
-	float y = lua_tonumber(L, 5);				
-	float z = lua_tonumber(L, 6);				
-	float time = lua_tonumber(L, 7);	
-	float x1 = lua_tonumber(L, 8);				
-	float y1 = lua_tonumber(L, 9);				
-	float z1 = lua_tonumber(L, 10);					
-	std::string targetFriendlyName = lua_tostring(L, 11);			
+	float x = lua_tonumber(L, 4);
+	float y = lua_tonumber(L, 5);
+	float z = lua_tonumber(L, 6);
+	float time = lua_tonumber(L, 7);
+	float x1 = lua_tonumber(L, 8);
+	float y1 = lua_tonumber(L, 9);
+	float z1 = lua_tonumber(L, 10);
+	std::string targetFriendlyName = lua_tostring(L, 11);
 	std::string script = lua_tostring(L, 12);
 
 
 	//cCommandGroup* commandGroup = cLuaBrain::m_findCGbyName(groupName, luaCommandGroup);
 	cCommandGroup* commandGroup = cLuaBrain::m_findSubCGbyName(groupName, luaCommandGroup);
-	if (commandGroup == nullptr) 
+	if (commandGroup == nullptr)
 	{
 		commandGroup = cLuaBrain::m_findCGbyName(groupName, luaCommandGroup);
 	}
 	cMeshObject* theObject;
-	
+
 	//CAMERA HACK
-	if (ObjFriendlyName == "camera" || ObjFriendlyName == "Camera") 
+	if (ObjFriendlyName == "camera" || ObjFriendlyName == "Camera")
 	{
 		cMeshObject* p_camObj = new cMeshObject();
 		p_camObj->friendlyName = "cameraObj";
@@ -390,15 +393,18 @@ int cLuaBrain::l_newCom(lua_State *L)
 		theObject = cLuaBrain::m_findObjectByFriendlyName(ObjFriendlyName);
 	}
 
-	
+
 
 	cMeshObject* targetObj;
 	if (targetFriendlyName != "")
+	{
 		targetObj = cLuaBrain::m_findObjectByFriendlyName(targetFriendlyName);
+	}
 	else
+	{
 		targetObj = nullptr;
+	}
 
-	
 	if (commandName == "Follow")
 	{
 		cFollowObjectCommand* newCommand = new cFollowObjectCommand();
@@ -421,11 +427,17 @@ int cLuaBrain::l_newCom(lua_State *L)
 		vecInitValues.push_back(maxSpeed);
 		vecInitValues.push_back(TargetObject);
 		vecInitValues.push_back(Time);
+		if (script != "")
+		{
+			cMeshObject* lookAtObj = m_findObjectByFriendlyName(script);
+			sNVPair lookAtObject;			lookAtObject.pMeshObj = lookAtObj;
+			vecInitValues.push_back(lookAtObject);
+		}
 
 		newCommand->Initialize(vecInitValues);
 		commandGroup->vecCommands.push_back(newCommand);
 	}
-	
+
 	else if (commandName == "FollowCurve")
 	{
 		cFollowCurve* newCommand = new cFollowCurve();
@@ -447,11 +459,20 @@ int cLuaBrain::l_newCom(lua_State *L)
 		vecInitValues.push_back(Time);
 		vecInitValues.push_back(TargetObj);
 
+		if (script != "")
+		{
+			cMeshObject* lookAtObj = m_findObjectByFriendlyName(script);
+			sNVPair lookAtObject;			lookAtObject.pMeshObj = lookAtObj;
+			vecInitValues.push_back(lookAtObject);
+		}
+
+
 		newCommand->Initialize(vecInitValues);
 		commandGroup->vecCommands.push_back(newCommand);
 	}
 	else if (commandName == "MoveToEaseIO")
 	{
+
 		cMoveToEaseIO* newCommand = new cMoveToEaseIO();
 
 		std::vector<sNVPair> vecInitValues;
@@ -463,12 +484,40 @@ int cLuaBrain::l_newCom(lua_State *L)
 		sNVPair SlowDownOut;			SlowDownOut.fValue = y1;
 		sNVPair TargetObject;           TargetObject.pMeshObj = targetObj;
 
+
+
 		vecInitValues.push_back(ObjectToMove);
 		vecInitValues.push_back(Destination);
 		vecInitValues.push_back(Time);
 		vecInitValues.push_back(SlowDownIn);
 		vecInitValues.push_back(SlowDownOut);
 		vecInitValues.push_back(TargetObject);
+		if (script != "")
+		{
+			cMeshObject* lookAtObj = m_findObjectByFriendlyName(script);
+			sNVPair lookAtObject;			lookAtObject.pMeshObj = lookAtObj;
+			vecInitValues.push_back(lookAtObject);
+		}
+
+		newCommand->Initialize(vecInitValues);
+		commandGroup->vecCommands.push_back(newCommand);
+	}
+	else if (commandName == "Wait")
+	{
+
+		cWait* newCommand = new cWait();
+
+		std::vector<sNVPair> vecInitValues;
+
+		sNVPair TimeToWait;			TimeToWait.fValue = time;
+
+		sNVPair down;		down.fValue = x;
+		sNVPair upper;      upper.fValue = y;
+
+		vecInitValues.push_back(TimeToWait);
+		vecInitValues.push_back(down);
+		vecInitValues.push_back(upper);
+
 
 		newCommand->Initialize(vecInitValues);
 		commandGroup->vecCommands.push_back(newCommand);
@@ -515,9 +564,9 @@ int cLuaBrain::l_newCom(lua_State *L)
 
 		commandGroup->vecCommands.push_back(newCommand);
 	}
-	
-	else	
-	{		
+
+	else
+	{
 
 	}
 
@@ -526,29 +575,29 @@ int cLuaBrain::l_newCom(lua_State *L)
 }
 
 
- cCommandGroup* cLuaBrain::m_findCGbyName(std::string groupName, cCommandGroup lua_CG) {
+cCommandGroup* cLuaBrain::m_findCGbyName(std::string groupName, cCommandGroup lua_CG) {
 
-	 for (int i = 0; i != lua_CG.vecCommandGroups.size(); i++)
-	 {
-		 if (lua_CG.vecCommandGroups[i]->groupName == groupName)
-		 {
-			 return lua_CG.vecCommandGroups[i];
-		 }
-	 }
+	for (int i = 0; i != lua_CG.vecCommandGroups.size(); i++)
+	{
+		if (lua_CG.vecCommandGroups[i]->groupName == groupName)
+		{
+			return lua_CG.vecCommandGroups[i];
+		}
+	}
 }
 
 
- cCommandGroup* cLuaBrain::m_findSubCGbyName(std::string subGroupName, cCommandGroup lua_CG) {
+cCommandGroup* cLuaBrain::m_findSubCGbyName(std::string subGroupName, cCommandGroup lua_CG) {
 
-	 for (int i = 0; i != lua_CG.vecCommandGroups.size(); i++)
-	 {
-		 for (int j = 0; j != lua_CG.vecCommandGroups[i]->vecCommandGroups.size(); j++)
-		 {
-			 if (lua_CG.vecCommandGroups[i]->vecCommandGroups[j]->groupName == subGroupName)
-			 {
-				 return lua_CG.vecCommandGroups[i]->vecCommandGroups[j];
-			 }
-		 }
-	 }
-	 return nullptr;
- }
+	for (int i = 0; i != lua_CG.vecCommandGroups.size(); i++)
+	{
+		for (int j = 0; j != lua_CG.vecCommandGroups[i]->vecCommandGroups.size(); j++)
+		{
+			if (lua_CG.vecCommandGroups[i]->vecCommandGroups[j]->groupName == subGroupName)
+			{
+				return lua_CG.vecCommandGroups[i]->vecCommandGroups[j];
+			}
+		}
+	}
+	return nullptr;
+}

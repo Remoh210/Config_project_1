@@ -32,6 +32,7 @@ void cMoveToEaseIO::Initialize(std::vector<sNVPair> vecNVPairs)
 	if (vecNVPairs[3].fValue != 0) this->AccRate = vecNVPairs[3].fValue;
 	if (vecNVPairs[4].fValue != 0) this->DecRate = vecNVPairs[4].fValue;
 	if (vecNVPairs[5].pMeshObj != nullptr) { this->finalPosition = vecNVPairs[5].pMeshObj->position; }
+	if (this->objToMove->friendlyName == "cameraObj" && vecNVPairs.size() > 6) { this->camLookAtObj = vecNVPairs[6].pMeshObj; }
 
 	return;
 }
@@ -45,7 +46,16 @@ void cMoveToEaseIO::Update(double deltaTime)
 
 		this->initialTime = glfwGetTime();
 		this->b_first = true;
-		this->initPosition = this->objToMove->position;
+		if (this->objToMove->friendlyName == "cameraObj")
+		{
+			this->objToMove->position = camera.Position;
+			this->initPosition = camera.Position;
+		}
+		else
+		{
+			this->initPosition = this->objToMove->position;
+		}
+
 		this->direction = glm::normalize(finalPosition - initPosition);
 		this->distanceToTarget = glm::distance(finalPosition, initPosition);
 		this->Speed = (float)this->distanceToTarget / this->Time;
@@ -75,13 +85,20 @@ void cMoveToEaseIO::Update(double deltaTime)
 
 
 	if (nextDistance > remainingDistance)
-	{ 
+	{
 		this->objToMove->position = this->finalPosition;
 	}
 	else
 	{
 		this->objToMove->position += deltaPosition;
-		if (objToMove->friendlyName == "cameraObj") { camera.Position = objToMove->position; }
+		if (objToMove->friendlyName == "cameraObj")
+		{
+			camera.b_controlledByScript = true;
+			camera.Position = objToMove->position;
+			camera.SetViewMatrix(glm::lookAt(camera.Position, this->camLookAtObj->position, glm::vec3(0.0f, 1.0f, 0.0f)));
+
+
+		}
 	}
 
 	return;
@@ -92,8 +109,8 @@ bool cMoveToEaseIO::isFinished(void)
 {
 	if (this->m_bIsDone) return true;
 
-	
-	if (this->objToMove->position == this->finalPosition)
+
+	if (this->objToMove->position == this->finalPosition || elapsedTime > this->Time)
 	{
 		this->m_bIsDone = true;
 		//this->objToMove->velocity = glm::vec3(0.0f, 0.0f, 0.0f);

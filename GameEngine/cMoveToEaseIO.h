@@ -35,5 +35,6 @@ private:
 	bool m_bIsDone;
 
 	cMeshObject* targetGO;
+	cMeshObject* camLookAtObj;
 };
 

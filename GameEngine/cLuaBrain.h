@@ -22,7 +22,7 @@ public:
 	// Init Lua and set callback functions
 	cLuaBrain();
 	~cLuaBrain();
-	void RunThis(std::string theLuaScript);
+	bool RunThis(std::string theLuaScript);
 	void LoadScript(std::string scriptName,
 		std::string scriptSource);
 	void DeleteScript(std::string scriptName);

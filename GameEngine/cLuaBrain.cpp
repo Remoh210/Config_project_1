@@ -83,7 +83,7 @@ void cLuaBrain::SetObjectVector(std::vector< cMeshObject* >* p_vecGOs)
 	return;
 }
 
-void cLuaBrain::RunThis(std::string theLuaScript)
+bool cLuaBrain::RunThis(std::string theLuaScript)
 {
 	int error = luaL_loadstring(this->m_pLuaState,
 		theLuaScript.c_str());
@@ -119,10 +119,11 @@ void cLuaBrain::RunThis(std::string theLuaScript)
 		std::cout << "-------------------------------------------------------" << std::endl;
 		// We passed zero (0) as errfunc, so error is on stack)
 		lua_pop(this->m_pLuaState, 1);  /* pop error message from the stack */
+		return false;
 
 	}
 
-	return;
+	return true;
 }
 
 

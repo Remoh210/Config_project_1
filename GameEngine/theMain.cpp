@@ -27,6 +27,10 @@
 #include <algorithm>
 #include "cTextRend.h";
 
+#include <rapidjson/document.h>
+#include <rapidjson/filereadstream.h>
+#include <rapidjson/stringbuffer.h>
+
 #include "DebugRenderer/cDebugRenderer.h"
 #include "cLightHelper.h"
 
@@ -55,8 +59,9 @@ float g_lightBrightness = 400000.0f;
 
 unsigned int numberOfObjectsToDraw = 0;
 
-const unsigned int SCR_WIDTH = 1200;
-const unsigned int SCR_HEIGHT = 900;
+unsigned int SCR_WIDTH = 1200;
+unsigned int SCR_HEIGHT = 900;
+std::string title;
 
 Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
 
@@ -102,17 +107,60 @@ bool test() {
 
 
 TEST(RenderText_FreeType, FreeType) {
-	EXPECT_TRUE(TextRend.initfreetype());
+	EXPECT_NE(TextRend.initfreetype(), false);
 }
 
-TEST(RenderText_Gl, FreeType) {
-	EXPECT_TRUE(TextRend.init_gl());
+TEST(RenderText_Gl, InitGl) {
+	ASSERT_TRUE(TextRend.init_gl());
 }
 
 TEST(Lua, LoadScript) {
 	EXPECT_TRUE(p_LuaScripts->LoadScriptFile("script.lua"));
 }
 
+TEST(Lua, RunScript) {
+	ASSERT_EQ(::p_LuaScripts->RunThis(::p_LuaScripts->m_mapScripts["script.lua"]), GLFW_TRUE);
+}
+
+// CHEK IF OBJECTS WERE LOADED
+TEST(Objects, toDraw)
+{
+	ASSERT_GT(vec_pObjectsToDraw.size(), 0);
+}
+
+
+
+//LoadConfig (BlackBox Tests)
+
+TEST(Config, LoadConfig)
+{
+	rapidjson::Document doc;
+	FILE* fp = fopen("config/config.json", "rb"); // non-Windows use "r"
+	char readBuffer[65536];
+	rapidjson::FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+	EXPECT_NE(readBuffer, "");
+	doc.ParseStream(is);
+	fclose(fp);
+	rapidjson::Value Window(rapidjson::kObjectType);
+	Window = doc["Window"];
+	EXPECT_TRUE(Window.IsObject());
+
+	SCR_WIDTH = Window["Width"].GetInt();
+	SCR_HEIGHT = Window["Height"].GetInt();
+	ASSERT_GT(SCR_WIDTH, 320);
+	ASSERT_GT(SCR_HEIGHT, 240);
+	ASSERT_EQ(Window["Title"].IsString(), true);
+	title = Window["Title"].GetString();
+
+	std::string language = doc["Language"].GetString();
+	ASSERT_NE(language, "");
+	if (language == "English") { TextRend.setLang(ENGLISH); }
+	else if (language == "Spanish"){ TextRend.setLang(SPANISH); }
+	else if (language == "Japanese") { TextRend.setLang(JAPANESE); }
+	else if (language == "Ukrainian") { TextRend.setLang(UKRAINAN); }
+	else if (language == "Polish") { TextRend.setLang(POLSKA); }
+
+}
 
 
 int main(int argc, char **argv)
@@ -131,7 +179,7 @@ int main(int argc, char **argv)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
-	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Light", NULL, NULL);
+	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, title.c_str(), NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -279,10 +327,11 @@ int main(int argc, char **argv)
 	TextRend.init_gl();
 	TextRend.initfreetype();
 	//system("CLS");
-	InitGame();;
+	InitGame();
 	
 	RUN_ALL_TESTS();
-	::p_LuaScripts->RunThis(::p_LuaScripts->m_mapScripts["script.lua"]);
+	glfwSetWindowSize(window, SCR_WIDTH, SCR_HEIGHT);
+	//::p_LuaScripts->RunThis(::p_LuaScripts->m_mapScripts["script.lua"]);
 	//HWND hWnd = GetConsoleWindow();
 	//ShowWindow(hWnd, SW_SHOW);
 	//*****************************************************************
